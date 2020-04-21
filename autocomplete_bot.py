@@ -12,69 +12,71 @@ logging.basicConfig(level=logging.INFO)
 
 
 SUB_NAME = "freefolk"
-NUM_OF_POSTS = 30
+NUM_OF_POSTS = 20
 
 
 
-		
+######################################################################################################################		
 #the database has the following parameters:
 #"CREATE TABLE comments (id INTEGER PRIMARY KEY, comment_id TEXT, user TEXT, body TEXT, completion TEXT, date INTEGER)"
-class Database():
-	def __init__(self,name = config.database):
-		def self.
-def open_database():
-	logging.info("Opening database...")
-	connection = sql.connect(config.database)
-	cursor = connection.cursor()
-	logging.info("Database Open")
-	return connection, cursor
-	
-def show_database_content(cursor):
-	print("This is the content of the database:")
-	matches = cursor.execute("SELECT * FROM comments").fetchall()
-	for row in matches:
-		print(row)
+######################################################################################################################
+class Database:
+	def __init__(self, database = config.database):
+		self.connection = sql.connect(database)
+		self.cursor = self.connection.cursor()
 		
-def show_database_completions(cursor):
-	print("\n-------------------------------------------------------\n"
-		"Those are the completions in the database:")
-	matches = cursor.execute("SELECT body, completion FROM comments").fetchall()
-	for row in matches:
-		print("-------------------------------------------------------")
-		if len(row[0]) > 50:
-			print("[...]" + row[0][-30:])
-		else:
-			print(row[0])
-		print(row[1])
-		
-def delete_entire_database(connection,cursor):
-	print("Are you sure? (y/n)")
-	confirmation = input()
-	if confirmation =="y":
-		cur.execute("DELETE FROM comments")
-		con.commit()
+	def open_database(self):
+		return self.connection, self.cursor
 	
-def check_if_replied_to_comment(comment, cursor):
-	matches = cursor.execute("SELECT COUNT(*) FROM comments "
-				"WHERE comment_id = '%s' LIMIT 1"%comment.fullname).fetchall()[0][0]
-	if matches > 0:
-		return True
-	return False
+	def show_database_content(self):
+		print("This is the content of the database:")
+		matches = self.cursor.execute("SELECT * FROM comments").fetchall()
+		for row in matches:
+			print(row)
 	
-def adapt_datetime(ts):
-    return int(time.mktime(ts.timetuple()))
+	def show_database_completions(self):
+		print("\n-------------------------------------------------------\n"
+			"Those are the completions in the database:")
+		matches = self.cursor.execute("SELECT body, completion FROM comments").fetchall()
+		for row in matches:
+			print("-------------------------------------------------------")
+			if len(row[0]) > 50:
+				print("[...]" + row[0][-30:])
+			else:
+				print(row[0])
+			print(row[1])
+			
+	def delete_entire_database(self):
+		print("Are you sure? (y/n)")
+		confirmation = input()
+		if confirmation =="y":
+			self.cursor.execute("DELETE FROM comments")
+			self.connection.commit()
 	
-def add_to_database(comment, completion, connection, cursor):
-	logging.info("Adding comment to database...")
-	cursor.execute("INSERT INTO comments (comment_id, user, body, completion, date) "\
-		"VALUES (?, ?, ?, ?, ?)", (comment.fullname, comment.author.name, comment.body,
-		completion, adapt_datetime(datetime.date.today())))
-	connection.commit()
-	logging.info("Comment added!")
+	def check_if_replied(self, comment):
+		matches = self.cursor.execute("SELECT COUNT(*) FROM comments "
+					"WHERE comment_id = '%s' LIMIT 1"%comment.fullname).fetchall()[0][0]
+		if matches > 0:
+			return True
+		return False
+	
+	def adapt_datetime(ts):
+		return int(time.mktime(ts.timetuple()))
+	
+	def add_to_database(self,comment, completion, connection, cursor):
+		logging.info("Adding comment to database...")
+		self.cursor.execute("INSERT INTO comments (comment_id, user, body, completion, date) "\
+			"VALUES (?, ?, ?, ?, ?)", (comment.fullname, comment.author.name, comment.body,
+			completion, adapt_datetime(datetime.date.today())))
+		self.connection.commit()
+		logging.info("Comment added!")
+	
+
 
 #########################################################################################
-connection, cursor = open_database()
 #########################################################################################
+#########################################################################################
+
 
 def get_last_words(sentence):
 	try:
@@ -154,7 +156,7 @@ def login():
 	return r
 	
 def run():
-	logging.info("Setting up models...")
+	logging.info("Setting up model...")
 
 
 	# class POSifiedText(markovify.Text):
@@ -173,19 +175,15 @@ def run():
 	# one_word_model = POSifiedText(text, state_size = 1)
 	text =  open('speech sample 5.txt', 'r', encoding="utf8")
 	two_word_model = markovify.Text(text, state_size = 2)
-	text =  open('speech sample 5.txt', 'r', encoding="utf8")
-	one_word_model = markovify.Text(text, state_size = 1)
-
 	logging.info("Setup complete!")
 	
-	r = login()
+	
 
-
-	comment_count = 0
-	comments_found = []
-
+	database = Database()
+	reddit = login()
+	
 	logging.info("Opening sub...")
-	sub = r.subreddit(SUB_NAME)
+	sub = reddit.subreddit(SUB_NAME)
 	logging.info("Sub opened!")
 	logging.info("Getting posts...")
 	hot_submissions = sub.hot(limit = NUM_OF_POSTS)
@@ -193,17 +191,17 @@ def run():
 	for post in hot_submissions:
 		logging.info("-------------------------------------------------------"\
 			"\nPost: www.reddit.com/r/%s/comments/%s/"%(SUB_NAME, post.id))
-		if post.archived:#if the post was archived then ignore
+		if post.archived:
 				logging.info("Post was archived")
 				continue
 		
 		#without this the code breaks when reading a 'more comments'
 		post.comments.replace_more(limit=0)
 		all_comments = post.comments.list()
-		# logging.info("This is the ammount of comments: %s"%(len(all_comments)))
+		
 		for comment in all_comments:
 			if comment.body[len(comment.body) - 3:] == "...":
-				if check_if_replied_to_comment(comment, cursor):
+				if database.check_if_replied(comment):
 					logging.info("Already replied to comment")
 					continue #skips this if it has already replied to comment
 				logging.info("Found matching comment!!!")
@@ -212,19 +210,11 @@ def run():
 				completion = complete_sentence(comment.body)
 				logging.info('Completion: %s'%completion)
 				if completion != None:
-					add_to_database(comment, completion, connection, cursor)
-			
-
-	logging.info("We found the following comments:")
-	for comment in comments_found:
-		logging.info("----------------------------------------------------------------------------\n"\
-					"%s\n%s"%(comment[0], comment[1]))
-	
-	
-	show_database_completions(cursor)
+					database.add_to_database(comment, completion)
+	database.show_database_completions()
 				
 				
-#run()
+run()
 
 				
 
