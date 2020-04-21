@@ -10,7 +10,7 @@ from markov import *
 
 
 SUB_NAME = "books"
-NUM_OF_POSTS = 20
+NUM_OF_POSTS = 50
 
 					
 #the database has the following parameters:
@@ -33,8 +33,19 @@ def show_database_completions(cursor):
 		"Those are the completions in the database:")
 	matches = cursor.execute("SELECT body, completion FROM comments").fetchall()
 	for row in matches:
-		print(row[0])
+		print("-------------------------------------------------------")
+		if len(row[0]) > 50:
+			print("[...]" + row[0][-30:])
+		else:
+			print(row[0])
 		print(row[1])
+		
+def delete_entire_database(connection,cursor):
+	print("Are you sure? (y/n)")
+	confirmation = input()
+	if confirmation =="y":
+		cur.execute("DELETE FROM comments")
+		con.commit()
 	
 def check_if_replied_to_comment(comment, cursor):
 	matches = cursor.execute("SELECT COUNT(*) FROM comments "

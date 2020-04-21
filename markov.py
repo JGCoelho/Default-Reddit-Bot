@@ -10,24 +10,24 @@ one_word_pattern = re.compile(r'(.*\s|\A)(\w*)\.*$')
 two_word_pattern = re.compile(r'(.*\s|\A)(\w*)\s(\w*)\.*$')
 
 
-class POSifiedText(markovify.Text):
-    def word_split(self, sentence):
-        words = re.split(self.word_split_pattern, sentence)
-        words = [ "::".join(tag) for tag in pos_tag(words) ]
-        return words
+# class POSifiedText(markovify.Text):
+    # def word_split(self, sentence):
+        # words = re.split(self.word_split_pattern, sentence)
+        # words = [ "::".join(tag) for tag in pos_tag(words) ]
+        # return words
 
-    def word_join(self, words):
-        sentence = " ".join(word.split("::")[0] for word in words)
-        return sentence
+    # def word_join(self, words):
+        # sentence = " ".join(word.split("::")[0] for word in words)
+        # return sentence
 
-text =  open('speech sample.txt', 'r', encoding="utf8")
-two_word_model = POSifiedText(text, state_size = 2)
-text =  open('speech sample.txt', 'r', encoding="utf8")
-one_word_model = POSifiedText(text, state_size = 1)
 # text =  open('speech sample.txt', 'r', encoding="utf8")
-# two_word_model = markovify.Text(text, state_size = 2)
+# two_word_model = POSifiedText(text, state_size = 2)
 # text =  open('speech sample.txt', 'r', encoding="utf8")
-# one_word_model = markovify.Text(text, state_size = 1)
+# one_word_model = POSifiedText(text, state_size = 1)
+text =  open('speech sample 5.txt', 'r', encoding="utf8")
+two_word_model = markovify.Text(text, state_size = 2)
+text =  open('speech sample 5.txt', 'r', encoding="utf8")
+one_word_model = markovify.Text(text, state_size = 1)
 
 logging.info("Setup complete!")
 
@@ -71,19 +71,21 @@ def complete_sentence(sentence):
 				completion = two_word_model.make_sentence(init_state = ending)
 				return remove_fist_words(completion, 2)
 		except:
-			logging.info("Could not find the word %s followed by the word %s"%(ending[0],ending[1]))
-			try:
-				completion = one_word_model.make_sentence_with_start(ending[1])
-				return remove_fist_words(completion, 1)
-			except:
-				logging.info("Could not complete this ending: %s, %s"%(ending[0], ending[1]))
-	elif type(ending) is str:
-		try:
-			while completion == None:
-				completion = one_word_model.make_sentence_with_start(ending)
-				return remove_fist_words(completion, 1)
-		except:
-			logging.info("Word not in text:%s"%ending)
+			pass
+		# except:
+			# logging.info("Could not find the word %s followed by the word %s"%(ending[0],ending[1]))
+			# try:
+				# completion = one_word_model.make_sentence_with_start(ending[1])
+				# return remove_fist_words(completion, 1)
+			# except:
+				# logging.info("Could not complete this ending: %s, %s"%(ending[0], ending[1]))
+	# elif type(ending) is str:
+		# try:
+			# while completion == None:
+				# completion = one_word_model.make_sentence_with_start(ending)
+				# return remove_fist_words(completion, 1)
+		# except:
+			# logging.info("Word not in text:%s"%ending)
 	return completion
 			
 
