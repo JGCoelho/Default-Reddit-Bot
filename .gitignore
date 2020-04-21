@@ -1,2 +1,2 @@
-markov_database.odb
-reddit_config.py
+config_reddit.py
+markov_database.db
