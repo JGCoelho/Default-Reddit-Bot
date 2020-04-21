@@ -9,7 +9,7 @@ from markov import *
 					# filemode="w")
 
 
-SUB_NAME = "fantasy"
+SUB_NAME = "books"
 NUM_OF_POSTS = 20
 
 					
