@@ -1,6 +1,9 @@
 import markovify
 from nltk import pos_tag
 import re
+import sqlite3 as sql
+import reddit_config as config
+import praw, datetime, time
 import logging 
 logging.basicConfig(level=logging.INFO)
 
@@ -60,8 +63,8 @@ def remove_fist_words(word, ammount):
 	
 #This return a completion if the model can handle the sentence and None if not
 def complete_sentence(sentence):
-	print("-----------------------------------------------------------------")
-	print(sentence)
+	#print("-----------------------------------------------------------------")
+	#print(sentence)
 	ending = get_last_words(sentence)
 	
 	completion = None
@@ -94,6 +97,56 @@ def test_model(tries = 5):
 		print(complete_sentence ('gone well...'))
 	for i in range(tries):
 		print(complete_sentence('gone...'))
-
-print(complete_sentence("Not sure what it's from, though..."))
+		
+#the database has the following parameters:
+#"CREATE TABLE comments (id INTEGER PRIMARY KEY, comment_id TEXT, user TEXT, body TEXT, completion TEXT, date INTEGER)"
+def open_database():
+	logging.info("Opening database...")
+	connection = sql.connect(config.database)
+	cursor = connection.cursor()
+	logging.info("Database Open")
+	return connection, cursor
+	
+def show_database_content(cursor):
+	print("This is the content of the database:")
+	matches = cursor.execute("SELECT * FROM comments").fetchall()
+	for row in matches:
+		print(row)
+		
+def show_database_completions(cursor):
+	print("\n-------------------------------------------------------\n"
+		"Those are the completions in the database:")
+	matches = cursor.execute("SELECT body, completion FROM comments").fetchall()
+	for row in matches:
+		print("-------------------------------------------------------")
+		if len(row[0]) > 50:
+			print("[...]" + row[0][-30:])
+		else:
+			print(row[0])
+		print(row[1])
+		
+def delete_entire_database(connection,cursor):
+	print("Are you sure? (y/n)")
+	confirmation = input()
+	if confirmation =="y":
+		cur.execute("DELETE FROM comments")
+		con.commit()
+	
+def check_if_replied_to_comment(comment, cursor):
+	matches = cursor.execute("SELECT COUNT(*) FROM comments "
+				"WHERE comment_id = '%s' LIMIT 1"%comment.fullname).fetchall()[0][0]
+	if matches > 0:
+		return True
+	return False
+	
+def adapt_datetime(ts):
+    return int(time.mktime(ts.timetuple()))
+	
+def add_to_database(comment, completion, connection, cursor):
+	logging.info("Adding comment to database...")
+	cursor.execute("INSERT INTO comments (comment_id, user, body, completion, date) "\
+		"VALUES (?, ?, ?, ?, ?)", (comment.fullname, comment.author.name, comment.body,
+		completion, adapt_datetime(datetime.date.today())))
+	connection.commit()
+	logging.info("Comment added!")
 
