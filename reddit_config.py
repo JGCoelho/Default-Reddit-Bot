@@ -1,6 +1,6 @@
 #Data for reddit
-user = "Lv35Boss"
-password = "ObViO42SeR*"
-client_id = "LJU-zUmur6WjLA"
-client_secret = "VsnVr8Sskq9FZRmlTjhjTSCTyZ4"
+user = YOUR ACCOUNT
+password = YOUR PASSWORD
+client_id = YOUR CLIENT
+client_secret = YOUR CLIENT SECRET
 database = "markov_database.db"
