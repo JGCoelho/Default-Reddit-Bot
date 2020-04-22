@@ -1,7 +1,11 @@
 *.txt
 reddit_config.py
 samples/
+<<<<<<< HEAD
 markov_database.db
 .vscode/
 __pycache__/
 config_reddit.py
+=======
+markov_database.db
+>>>>>>> 34506a57605787858c0e5bdd11e282eba3f32f4a
