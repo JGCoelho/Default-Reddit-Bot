@@ -1,2 +1,4 @@
 *.txt
+reddit_config.py
+samples/
 markov_database.db
