@@ -8,7 +8,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 
-SAMPLE_FILE = 'speech sample.txt'
+SAMPLE_FILE = 'text sample.txt'
 SUB_NAME = "crusaderkings"
 NUM_OF_POSTS = 20
 
@@ -30,7 +30,7 @@ logging.info("Setting up model...")
 	# two_word_model = POSifiedText(text, state_size = 2)
 	# two_word_model = two_word_model.compile()
 	
-with open("samples\\"+SAMPLE_FILE, 'r', encoding="utf8") as text:
+with open("samples\\" + SAMPLE_FILE, 'r', encoding="utf8") as text:
 	two_word_model = markovify.Text(text, state_size = 2)
 	# two_word_model = two_word_model.compile()
 logging.info("Setup complete.")

@@ -1,3 +1,2 @@
 *.txt
 markov_database.db
-__pycache__/
