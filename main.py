@@ -1,3 +1,3 @@
-from autocomplete_bot import *
+from autocompletebot import *
 
 run()

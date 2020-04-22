@@ -1,3 +1,4 @@
 config_reddit.py
 *.txt
 markov_database.db
+__pycache__/

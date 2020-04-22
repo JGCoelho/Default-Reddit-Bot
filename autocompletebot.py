@@ -30,9 +30,10 @@ logging.info("Setting up model...")
 	# two_word_model = POSifiedText(text, state_size = 2)
 	# two_word_model = two_word_model.compile()
 	
-with open(SAMPLE_FILE, 'r', encoding="utf8") as text:
+with open("samples\\"+SAMPLE_FILE, 'r', encoding="utf8") as text:
 	two_word_model = markovify.Text(text, state_size = 2)
 	# two_word_model = two_word_model.compile()
+logging.info("Setup complete.")
 #####################################################################################################################
 
 
@@ -53,16 +54,16 @@ class Database:
 		self.cursor = self.connection.cursor()
 		return self.connection, self.cursor
 	
-	def show_database_content(self):
+	def show_content(self):
 		print("This is the content of the database:")
-		matches = self.cursor.execute("SELECT * FROM comments").fetchall()
+		matches = self.cursor.execute("SELECT * FROM comments ORDER BY id").fetchall()
 		for row in matches:
 			print(row)
 	
-	def show_database_completions(self):
+	def show_completions(self):
 		print("\n-------------------------------------------------------\n"
 			"Those are the completions in the database:")
-		matches = self.cursor.execute("SELECT body, completion FROM comments").fetchall()
+		matches = self.cursor.execute("SELECT body, completion FROM comments ORDER BY id").fetchall()
 		for row in matches:
 			print("-------------------------------------------------------")
 			if len(row[0]) > 50:
@@ -78,7 +79,7 @@ class Database:
 			self.cursor.execute("DELETE FROM comments")
 			self.connection.commit()
 	
-	def check_if_replied(self, comment):
+	def check_replied(self, comment):
 		matches = self.cursor.execute("SELECT COUNT(*) FROM comments "
 					"WHERE comment_id = '%s' LIMIT 1"%comment.fullname).fetchall()[0][0]
 		if matches > 0:
@@ -88,7 +89,7 @@ class Database:
 	def adapt_datetime(self,ts):
 		return int(time.mktime(ts.timetuple()))
 	
-	def add_to_database(self, comment, completion):
+	def add_to(self, comment, completion):
 		logging.info("Adding comment to database...")
 		self.cursor.execute("INSERT INTO comments (comment_id, user, body, completion, date) "\
 			"VALUES (?, ?, ?, ?, ?)", (comment.fullname, comment.author.name, comment.body,
@@ -98,9 +99,13 @@ class Database:
 		
 	def ban_author(self, author):
 		self.cursor.execute("INSERT INTO banned (user) VALUES (?)"%(author.name))
+		
+	def show_banned(self):
+		matches = self.cursor.execute("SELECT * FROM banned ORDER BY id").fetchall()
+		for row in matches:
+			print(row)
 	
-	
-	def check_if_banned(self, author):
+	def check_banned(self, author):
 		matches = self.cursor.execute("SELECT COUNT(*) FROM banned "
 					"WHERE comment_id = '%s' LIMIT 1"%author.name).fetchall()[0][0]
 		if matches > 0:
@@ -112,7 +117,8 @@ class Database:
 		self.connection.close()
 		
 	def get_size(self):
-		matches = self.cursor.execute("SELECT COUNT(*) FROM comments"%comment.fullname).fetchall()[0][0]
+		size = self.cursor.execute("SELECT COUNT(*) FROM comments").fetchall()[0][0]
+		return size
 		
 	
 
@@ -214,7 +220,7 @@ def run():
 		
 		for comment in all_comments:
 			if comment.body[len(comment.body) - 3:] == "...":
-				if database.check_if_replied(comment):
+				if database.check_replied(comment):
 					logging.info("Already replied to comment")
 					continue #skips this if it has already replied to comment
 				logging.info("Found matching comment!")
@@ -223,11 +229,12 @@ def run():
 				completion = complete_sentence(comment.body)
 				logging.info('Completion: %s'%completion)
 				if completion != None:
-					database.add_to_database(comment, completion)
+					database.add_to(comment, completion)
 					total_of_comments += 1
-	database.show_database_completions()
-	logging.info("-------------------------------------------------------\n"\
-		"In this run we added %s comments to the database."%total_of_comments)
+	database.show_completions()
+	logging.info("-------------------------------------------------------\n" +
+		"In this run we added %s comments to the database.\n"%total_of_comments +
+		"The database has a total of %s comments."%database.get_size())
 				
 
 				
