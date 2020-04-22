@@ -1,2 +1,7 @@
-markov_database.odb
+*.txt
 reddit_config.py
+samples/
+markov_database.db
+.vscode/
+__pycache__/
+config_reddit.py
