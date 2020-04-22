@@ -1,5 +1,5 @@
 import markovify
-from nltk import pos_tag
+#from nltk import pos_tag
 import re
 import sqlite3 as sql
 import reddit_config as config
@@ -8,30 +8,31 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 
-
-SUB_NAME = "all"
-NUM_OF_POSTS = 50
+SAMPLE_FILE = 'speech sample.txt'
+SUB_NAME = "crusaderkings"
+NUM_OF_POSTS = 20
 
 #####################################################################################################################
 logging.info("Setting up model...")
 
 
-class POSifiedText(markovify.Text):
-	def word_split(self, sentence):
-		words = re.split(self.word_split_pattern, sentence)
-		words = [ "::".join(tag) for tag in pos_tag(words) ]
-		return words
+# class POSifiedText(markovify.Text):
+	# def word_split(self, sentence):
+		# words = re.split(self.word_split_pattern, sentence)
+		# words = [ "::".join(tag) for tag in pos_tag(words) ]
+		# return words
 
-	def word_join(self, words):
-		sentence = " ".join(word.split("::")[0] for word in words)
-		return sentence
+	# def word_join(self, words):
+		# sentence = " ".join(word.split("::")[0] for word in words)
+		# return sentence
 
-with open('speech sample.txt', 'r', encoding="utf8") as text:
-	two_word_model = POSifiedText(text, state_size = 2)
-# text =  open('speech sample 5.txt', 'r', encoding="utf8")
-# two_word_model = markovify.Text(text, state_size = 2)
-# logging.info("Setup complete!")	
-
+# with open(SAMPLE_FILE, 'r', encoding="utf8") as text:
+	# two_word_model = POSifiedText(text, state_size = 2)
+	# two_word_model = two_word_model.compile()
+	
+with open(SAMPLE_FILE, 'r', encoding="utf8") as text:
+	two_word_model = markovify.Text(text, state_size = 2)
+	# two_word_model = two_word_model.compile()
 #####################################################################################################################
 
 
@@ -47,7 +48,7 @@ class Database:
 		self.connection = sql.connect(database)
 		self.cursor = self.connection.cursor()
 		
-	def open_database(self, database = self.database):
+	def open_database(self, database = config.database):
 		self.connection = sql.connect(database)
 		self.cursor = self.connection.cursor()
 		return self.connection, self.cursor
@@ -109,6 +110,9 @@ class Database:
 	def close_database(self):
 		self.connection.commit()
 		self.connection.close()
+		
+	def get_size(self):
+		matches = self.cursor.execute("SELECT COUNT(*) FROM comments"%comment.fullname).fetchall()[0][0]
 		
 	
 
@@ -187,6 +191,7 @@ def login():
 	return r
 	
 def run():
+	total_of_comments = 0
 	database = Database()
 	reddit = login()
 	
@@ -219,7 +224,10 @@ def run():
 				logging.info('Completion: %s'%completion)
 				if completion != None:
 					database.add_to_database(comment, completion)
+					total_of_comments += 1
 	database.show_database_completions()
+	logging.info("-------------------------------------------------------\n"\
+		"In this run we added %s comments to the database."%total_of_comments)
 				
 
 				

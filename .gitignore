@@ -1,4 +1,3 @@
 config_reddit.py
-#
-#
+*.txt
 markov_database.db
