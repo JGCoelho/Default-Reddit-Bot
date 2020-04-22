@@ -1,0 +1,3 @@
+from autocompletebot import *
+
+run()
