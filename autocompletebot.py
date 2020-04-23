@@ -1,8 +1,5 @@
-import markovify
-import re
-import sqlite3 as sql
+import markovify, re, json, praw, datetime, time, sqlite3
 import reddit_config as config
-import praw, datetime, time
 import logging 
 logging.basicConfig(level=logging.INFO)
 
@@ -17,42 +14,72 @@ logging.basicConfig(level=logging.INFO)
 #####################################################################################################################
 logging.info("Loading natural language library...")
 
-#the first one matches only phrases with only one word.
-#the second one matches the last two words in a phrase with two words
-one_word_pattern = re.compile(r'^(\w*)\.*$')
-two_word_pattern = re.compile(r'(.*\s|\A)(\S*\s\w*)\.*$')
+import nltk
+class POSifiedText(markovify.Text):
+    def word_split(self, sentence):
+        words = re.split(self.word_split_pattern, sentence)
+        words = [ "::".join(tag) for tag in nltk.pos_tag(words) ]
+        return words
 
-# import nltk
+    def word_join(self, words):
+        sentence = " ".join(word.split("::")[0] for word in words)
+        return sentence
 
-# class POSifiedText(markovify.Text):
-    # def word_split(self, sentence):
-        # words = re.split(self.word_split_pattern, sentence)
-        # words = [ "::".join(tag) for tag in nltk.pos_tag(words) ]
-        # return words
 
-    # def word_join(self, words):
-        # sentence = " ".join(word.split("::")[0] for word in words)
-        # return sentence
 
-# logging.info("Setting up one two model...")		
-# with open("samples\\" + config.SAMPLE_FILE, 'r', encoding="utf8") as text:
-	# two_word_model = POSifiedText(text, state_size = 2)
-	# two_word_model = two_word_model.compile(inplace = True)
+def save_model_as_json(text_model, file_name):
+	model_json = text_model.to_json()
+	with open(file_name, 'w') as outfile:
+		json.dump(model_json, outfile)
+		
+def load_model_from_json(file_name,pos = False):
+	with open(file_name) as json_file:
+		if pos:
+			return POSifiedText.from_json(json.load(json_file))		
+		
+def create_models_and_save(sample_file, output_name, pos = False):
+	with open(sample_file, 'r', encoding = "utf-8") as file:
+		if pos:
+			type_of_model = 'pos.txt'
+			model = POSifiedText(file, state_size = 1)
+			save_model_as_json(model, output_name + " 1 " + type_of_model)
+			model = POSifiedText(file, state_size = 2)
+			save_model_as_json(model, output_name + " 2 " + type_of_model)
+			model = POSifiedText(file, state_size = 3)
+			save_model_as_json(model, output_name + " 3 " + type_of_model)
+		else:
+			type_of_model = 'mark.txt'
+			model = markovify.Text(file, state_size = 1)
+			save_model_as_json(model, output_name + " 1 " + type_of_model)
+			model = markovify.Text(file, state_size = 2)
+			save_model_as_json(model, output_name + " 2 " + type_of_model)
+			model = markovify.Text(file, state_size = 3)
+			save_model_as_json(model, output_name + " 3 " + type_of_model)
+	
+		
+		
+
+
+
+		
+
+	
+logging.info("Setting up models...")
+# three_word_model = load_model_from_json('model brando 3 word.txt')
+# two_word_model = load_model_from_json('model brando 2 word.txt')
+# one_word_model = load_model_from_json('model brando 1 word.txt')
 	
 	
-# with open("samples\\" + config.SAMPLE_FILE, 'r', encoding="utf8") as text:
-	# one_word_model = POSifiedText(text, state_size = 1)
-	# one_word_model = two_word_model.compile(inplace = True)
-	
 
+three_word_model = load_model_from_json('brando 3 pos.txt', True)
+two_word_model = load_model_from_json('brando 2 pos.txt', True)
+one_word_model = load_model_from_json('brando 1 pos.txt', True)
+
+with open('brando 2 pos.txt') as json_file:
+	two_word_model = POSifiedText.from_json(json.load(json_file))
 	
-with open("samples\\" + config.SAMPLE_FILE, 'r', encoding="utf8") as text:
-	two_word_model = markovify.Text(text, state_size = 2)
-	two_word_model = two_word_model.compile()
-	
-with open("samples\\" + config.SAMPLE_FILE, 'r', encoding="utf8") as text:
-	one_word_model = markovify.Text(text, state_size = 1)
-	one_word_model = one_word_model.compile()
+with open('brando 1 pos.txt') as json_file:
+	one_word_model =POSifiedText.from_json(json.load(json_file))
 	
 logging.info("Setup complete.")
 
@@ -71,11 +98,11 @@ logging.info("Setup complete.")
 class Database:
 	def __init__(self, database = config.database):
 		self.database = database
-		self.connection = sql.connect(database)
+		self.connection = sqlite3.connect(database)
 		self.cursor = self.connection.cursor()
 		
 	def open_database(self, database = config.database):
-		self.connection = sql.connect(database)
+		self.connection = sqlite3.connect(database)
 		self.cursor = self.connection.cursor()
 		return self.connection, self.cursor
 	
@@ -179,58 +206,79 @@ class Database:
 #########################################################################################
 #########################################################################################
 #########################################################################################
-
+#the first one matches only phrases with only one word.
+#the second one matches the last two words in a phrase with two words
+one_word_pattern = re.compile(r'^(\w*)\.*$')
+two_word_pattern = re.compile(r'(.*\s|\A)(\S*\s\w*)\.*$')
+three_word_pattern = re.compile(r'(.*\s|\A)(\S*\s\S*\s\w*)\.*$')
+#return the last words and the ammount of words it could extract.
+#tries to extract the most amount of words at the end.
 def get_last_words(sentence):
+	logging.debug("Extracting ending of sentence \"{}\"".format(sentence))
 	try:
-		words = re.findall(two_word_pattern, sentence)[0][1]
-		return words
+		words = re.findall(three_word_pattern, sentence)[0][1]
+		return words, 3
 	except:
-		logging.info("Could not return two words")
-	return None
-	
-def get_last_word(sentence):
-	try:
-		words = re.findall(one_word_pattern, sentence)[0]
-		return words
-	except:
-		logging.info("Could not return any word")
-	return None
+		logging.debug("Could not return three words")
+		try:
+			words = re.findall(two_word_pattern, sentence)[0][1]
+			return words, 2
+		except:
+			logging.debug("Could not return two words")
+			try:
+				words = re.findall(one_word_pattern, sentence)[0]
+				return words,1
+			except:
+				logging.debug("Could not return one word")
+				return None, 0
+
 		
 #formats the completion the way we want it
 def remove_fist_words(word, amount):
-	return '...' + ' '.join(word.split(' ')[amount:])
-	
-#This return a completion if the model can handle the sentence and None if not
-def complete_sentence(sentence):
-	ending = get_last_words(sentence)
-	
-	completion = None
-	if ending != None:
+	return ' '.join(word.split(' ')[amount:])
+
+
+def complete_with_model(ending, model, amount):
+		completion = None
 		try:
 			while completion == None:
-				#print("We have this value for the ending: %s"%ending)
-				completion = two_word_model.make_sentence_with_start(ending)
-				if len(completion) < config.IDEAL_LEN:
-					completion += " "+two_word_model.make_sentence()
-				#print("We obtained the completion %s"%completion)
-				return remove_fist_words(completion, 2)
+				logging.debug("We have this value for the ending: %s"%ending)
+				completion = model.make_sentence_with_start(ending)
+				
+			if len(completion) < config.IDEAL_LEN:
+				completion += " " + model.make_sentence()
+			logging.debug("We obtained the completion %s"%completion)
+			return "..." +remove_fist_words(completion, amount)
 		except:
-			pass
-	else:
-		ending = get_last_word(sentence)
-		if ending != None:
-			try:
-				while completion == None:
-					#("We have this value for the ending: %s"%ending)
-					completion = one_word_model.make_sentence(initial_state = ending)
-					if len(completion) < config.IDEAL_LEN:
-						completion += " "+two_word_model.make_sentence()
-					
-					#print("We obtained the completion %s"%completion)
-					return remove_fist_words(completion, 1)
-			except:
-				pass
-	return completion
+			return None
+			
+			
+#This return a completion if the model can handle the sentence and None if not
+def complete_sentence(sentence):
+	ending, amount = get_last_words(sentence)
+	logging.debug("Ending:{}\nAmount:{}".format(ending, amount))
+	
+	if amount == 3:
+		completion = complete_with_model(ending, three_word_model, 3)
+		if completion != None:
+			return completion
+		amount = 2
+		ending = remove_fist_words(ending, 1)
+	if amount == 2:
+		completion = complete_with_model(ending, two_word_model, 2)
+		logging.debug("We achieved the following completion on 2 words:\n{}".format(\
+						completion))
+		if completion != None:
+			return completion
+		amount = 1
+		ending = remove_fist_words(ending, 1)
+	elif amount == 1:
+		completion = complete_with_model(ending, one_word_model, 1)
+		logging.debug("We achieved the following completion on 1 word:\n{}".format(\
+						completion))
+		if completion != None:
+			return completion
+	return None
 			
 
 
@@ -304,7 +352,7 @@ def run():
 		
 		for comment in all_comments:
 			if not comment.author:
-				logging.info("Comment deleted")
+				logging.info("Couldn't find author.")
 				continue
 			if database.check_banned(comment.author):
 				logging.info("Author is banned")
@@ -333,7 +381,7 @@ def run():
 			"\n{}\n{}".format(comment[0], comment[1], comment[2]))
 			
 	logging.info("-------------------------------------------------------\n" +
-		"In this run we added %s comments to the database.\n"%total_of_comments +
+		"In this run we added %s comments to the database.\n"%len(replied_comments) +
 		"The database has a total of %s comments."%database.get_size())
 		
 	database.connection.close()
@@ -343,19 +391,23 @@ def run():
 				
 
 				
-endings = ["What is...", "to focus..."]
-for sentence in endings:
-	ending = get_last_words(sentence)
-	print("-----------------------------------------------------------")
-	for i in range (5):
-		try:
-			print(complete_sentence(ending))
-		except Exception as e:
-			logging.critical(e, exc_info=True)
+# endings = ["This is turning...","What is...", "to focus..."]
+# for sentence in endings:
+	# print("-----------------------------------------------------------")
+	# for i in range (5):
+		# try:
+			# completion = None
+			# while completion == None:
+				# completion = complete_sentence(sentence)
+				# print(completion)
+				# time.sleep(1)
+			# print(completion)
+				
+		# except Exception as e:
+			# logging.critical(e, exc_info=True)
 				
 
-				
-				
+
 				
 				
 				
