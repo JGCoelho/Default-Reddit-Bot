@@ -65,21 +65,21 @@ def create_models_and_save(sample_file, output_name, pos = False):
 
 	
 logging.info("Setting up models...")
-# three_word_model = load_model_from_json('model brando 3 word.txt')
-# two_word_model = load_model_from_json('model brando 2 word.txt')
-# one_word_model = load_model_from_json('model brando 1 word.txt')
+# model3 = load_model_from_json('model brando 3 word.txt')
+# model2 = load_model_from_json('model brando 2 word.txt')
+# model1 = load_model_from_json('model brando 1 word.txt')
 	
 	
 
-three_word_model = load_model_from_json('brando 3 pos.txt', True)
-two_word_model = load_model_from_json('brando 2 pos.txt', True)
-one_word_model = load_model_from_json('brando 1 pos.txt', True)
+model3 = load_model_from_json('brando 3 pos.txt', True)
+model2 = load_model_from_json('brando 2 pos.txt', True)
+model1 = load_model_from_json('brando 1 pos.txt', True)
 
 with open('brando 2 pos.txt') as json_file:
-	two_word_model = POSifiedText.from_json(json.load(json_file))
+	model2 = POSifiedText.from_json(json.load(json_file))
 	
 with open('brando 1 pos.txt') as json_file:
-	one_word_model =POSifiedText.from_json(json.load(json_file))
+	model1 =POSifiedText.from_json(json.load(json_file))
 	
 logging.info("Setup complete.")
 
@@ -237,16 +237,21 @@ def get_last_words(sentence):
 def remove_fist_words(word, amount):
 	return ' '.join(word.split(' ')[amount:])
 
-
-def complete_with_model(ending, model, amount):
+#limit_use exists so when we use the one word model (bad)
+#we can limit how big its part is
+def complete_with_model(ending, model, amount, limit_use = False):
 		completion = None
 		try:
-			while completion == None:
-				logging.debug("We have this value for the ending: %s"%ending)
+			tries = 0
+			while tries < 20 and (completion == None or\
+				(limit_use and len(completion) > 15 )):
+				logging.debug("We have this value for the ending:"\
+					" %s, AMOUNT = %s"%(ending,amount))
 				completion = model.make_sentence_with_start(ending)
-				
-			if len(completion) < config.IDEAL_LEN:
-				completion += " " + model.make_sentence()
+				tries += 1
+			if len(completion) < config.MIN_LEN:
+				#the later part aways uses model3
+				completion += " " + model3.make_sentence()#t
 			logging.debug("We obtained the completion %s"%completion)
 			return "..." +remove_fist_words(completion, amount)
 		except:
@@ -259,21 +264,21 @@ def complete_sentence(sentence):
 	logging.debug("Ending:{}\nAmount:{}".format(ending, amount))
 	
 	if amount == 3:
-		completion = complete_with_model(ending, three_word_model, 3)
+		completion = complete_with_model(ending, model3, 3)
 		if completion != None:
 			return completion
 		amount = 2
 		ending = remove_fist_words(ending, 1)
 	if amount == 2:
-		completion = complete_with_model(ending, two_word_model, 2)
+		completion = complete_with_model(ending, model2, 2)
 		logging.debug("We achieved the following completion on 2 words:\n{}".format(\
 						completion))
 		if completion != None:
 			return completion
 		amount = 1
 		ending = remove_fist_words(ending, 1)
-	elif amount == 1:
-		completion = complete_with_model(ending, one_word_model, 1)
+	if amount == 1:
+		completion = complete_with_model(ending, model1, 1, True)
 		logging.debug("We achieved the following completion on 1 word:\n{}".format(\
 						completion))
 		if completion != None:
@@ -368,7 +373,7 @@ def run():
 				logging.info('Completion: %s'%completion)
 				if completion != None and "::" not in completion:
 					#reply_completion(comment, completion)
-					#database.add_to(comment, completion)
+					database.add_to(comment, completion)
 					replied_comments.append([post.url,comment.body[-50:],completion])
 				else:
 					#database.add_failure(comment)
@@ -408,9 +413,7 @@ def run():
 				
 
 
-				
-				
-				
+					
 				
 				
 				
