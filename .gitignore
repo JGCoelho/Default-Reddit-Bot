@@ -5,3 +5,4 @@ markov_database.db
 .vscode/
 __pycache__/
 config_reddit.py
+failures.txt
