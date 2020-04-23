@@ -29,32 +29,28 @@ class POSifiedText(markovify.Text):
 
 def save_model_as_json(text_model, file_name):
 	model_json = text_model.to_json()
-	with open(file_name, 'w') as outfile:
+	with open(config.MODELS_FOLDER + file_name, 'w') as outfile:
 		json.dump(model_json, outfile)
 		
 def load_model_from_json(file_name,pos = False):
-	with open(file_name) as json_file:
+	with open(config.MODELS_FOLDER + file_name) as json_file:
 		if pos:
 			return POSifiedText.from_json(json.load(json_file))		
+		return markovify.Text.from_json(json.load(json_file))
 		
 def create_models_and_save(sample_file, output_name, pos = False):
-	with open(sample_file, 'r', encoding = "utf-8") as file:
-		if pos:
-			type_of_model = 'pos.txt'
-			model = POSifiedText(file, state_size = 1)
-			save_model_as_json(model, output_name + " 1 " + type_of_model)
-			model = POSifiedText(file, state_size = 2)
-			save_model_as_json(model, output_name + " 2 " + type_of_model)
-			model = POSifiedText(file, state_size = 3)
-			save_model_as_json(model, output_name + " 3 " + type_of_model)
-		else:
-			type_of_model = 'mark.txt'
-			model = markovify.Text(file, state_size = 1)
-			save_model_as_json(model, output_name + " 1 " + type_of_model)
-			model = markovify.Text(file, state_size = 2)
-			save_model_as_json(model, output_name + " 2 " + type_of_model)
-			model = markovify.Text(file, state_size = 3)
-			save_model_as_json(model, output_name + " 3 " + type_of_model)
+	def create_model_and_save(state_size):
+		with open(sample_file, 'r', encoding = "utf-8") as file:
+			if pos:
+				model = POSifiedText(file, state_size)
+				model_type = "pos.txt"
+			else:
+				model = markovify.Text(file, state_size)
+				model_type = "mark.txt"
+			save_model_as_json(model, output_name + " " \
+						+ str(state_size) + " " + model_type)
+	for i in range(1,4):# 1, 2, 3
+		create_model_and_save(i)
 	
 		
 		
@@ -64,24 +60,28 @@ def create_models_and_save(sample_file, output_name, pos = False):
 		
 
 	
-logging.info("Setting up models...")
+# logging.info("Setting up models...")
 # model3 = load_model_from_json('model brando 3 word.txt')
 # model2 = load_model_from_json('model brando 2 word.txt')
 # model1 = load_model_from_json('model brando 1 word.txt')
 	
 	
 
-model3 = load_model_from_json('brando 3 pos.txt', True)
-model2 = load_model_from_json('brando 2 pos.txt', True)
-model1 = load_model_from_json('brando 1 pos.txt', True)
+# model3 = load_model_from_json('brando 3 pos.txt', True)
+# model2 = load_model_from_json('brando 2 pos.txt', True)
+# model1 = load_model_from_json('brando 1 pos.txt', True)
 
-with open('brando 2 pos.txt') as json_file:
-	model2 = POSifiedText.from_json(json.load(json_file))
+# model3 = load_model_from_json('starwars 3 pos.txt', True)
+# model2 = load_model_from_json('starwars 2 pos.txt', True)
+# model1 = load_model_from_json('starwars 1 pos.txt', True)
+
+# with open('brando 2 pos.txt') as json_file:
+	# model2 = POSifiedText.from_json(json.load(json_file))
 	
-with open('brando 1 pos.txt') as json_file:
-	model1 =POSifiedText.from_json(json.load(json_file))
+# with open('brando 1 pos.txt') as json_file:
+	# model1 =POSifiedText.from_json(json.load(json_file))
 	
-logging.info("Setup complete.")
+# logging.info("Setup complete.")
 
 #####################################################################################################################
 
@@ -211,79 +211,100 @@ class Database:
 one_word_pattern = re.compile(r'^(\w*)\.*$')
 two_word_pattern = re.compile(r'(.*\s|\A)(\S*\s\w*)\.*$')
 three_word_pattern = re.compile(r'(.*\s|\A)(\S*\s\S*\s\w*)\.*$')
-#return the last words and the ammount of words it could extract.
-#tries to extract the most amount of words at the end.
-def get_last_words(sentence):
-	logging.debug("Extracting ending of sentence \"{}\"".format(sentence))
-	try:
-		words = re.findall(three_word_pattern, sentence)[0][1]
-		return words, 3
-	except:
-		logging.debug("Could not return three words")
-		try:
-			words = re.findall(two_word_pattern, sentence)[0][1]
-			return words, 2
-		except:
-			logging.debug("Could not return two words")
-			try:
-				words = re.findall(one_word_pattern, sentence)[0]
-				return words,1
-			except:
-				logging.debug("Could not return one word")
-				return None, 0
 
-		
-#formats the completion the way we want it
-def remove_fist_words(word, amount):
-	return ' '.join(word.split(' ')[amount:])
-
-#limit_use exists so when we use the one word model (bad)
-#we can limit how big its part is
-def complete_with_model(ending, model, amount, limit_use = False):
-		completion = None
-		try:
-			tries = 0
-			while tries < 20 and (completion == None or\
-				(limit_use and len(completion) > 15 )):
-				logging.debug("We have this value for the ending:"\
-					" %s, AMOUNT = %s"%(ending,amount))
-				completion = model.make_sentence_with_start(ending)
-				tries += 1
-			if len(completion) < config.MIN_LEN:
-				#the later part aways uses model3
-				completion += " " + model3.make_sentence()#t
-			logging.debug("We obtained the completion %s"%completion)
-			return "..." +remove_fist_words(completion, amount)
-		except:
-			return None
-			
-			
-#This return a completion if the model can handle the sentence and None if not
-def complete_sentence(sentence):
-	ending, amount = get_last_words(sentence)
-	logging.debug("Ending:{}\nAmount:{}".format(ending, amount))
+class Handler:
+	#return the last words and the ammount of words it could extract.
+	#tries to extract the most amount of words at the end.
+	def __init__(self, model_dict):
+		self.models = {'model1': load_model_from_json(model_dict['model1'], True),
+					'model2': load_model_from_json(model_dict['model2'], True),
+					'model3':load_model_from_json(model_dict['model3'], True)}
 	
-	if amount == 3:
-		completion = complete_with_model(ending, model3, 3)
-		if completion != None:
-			return completion
-		amount = 2
-		ending = remove_fist_words(ending, 1)
-	if amount == 2:
-		completion = complete_with_model(ending, model2, 2)
-		logging.debug("We achieved the following completion on 2 words:\n{}".format(\
-						completion))
-		if completion != None:
-			return completion
-		amount = 1
-		ending = remove_fist_words(ending, 1)
-	if amount == 1:
-		completion = complete_with_model(ending, model1, 1, True)
-		logging.debug("We achieved the following completion on 1 word:\n{}".format(\
-						completion))
-		if completion != None:
-			return completion
-	return None
+	def get_last_words(self, sentence):
+		logging.debug("Extracting ending of sentence \"{}\"".format(sentence))
+		try:
+			words = re.findall(three_word_pattern, sentence)[0][1]
+			return words, 3
+		except:
+			logging.debug("Could not return three words")
+			try:
+				words = re.findall(two_word_pattern, sentence)[0][1]
+				return words, 2
+			except:
+				logging.debug("Could not return two words")
+				try:
+					words = re.findall(one_word_pattern, sentence)[0]
+					return words,1
+				except:
+					logging.debug("Could not return one word")
+					return None, 0
+
+			
+	#formats the completion the way we want it
+	def remove_first_words(self, word, amount):
+		return ' '.join(word.split(' ')[amount:])
+
+	#limit_use exists so when we use the one word model (bad)
+	#we can limit how big its part is
+	def complete_with_model(self, ending, model, amount, limit_use = False):
+			completion = None
+			try:
+				tries = 0
+				while completion == None or (limit_use and len(completion) > 25 ):
+					if tries > 15:
+						break
+					logging.debug("We have this value for the ending:"\
+						" \"%s\", AMOUNT = %s"%(ending,amount))
+					completion = model.make_sentence_with_start(ending)
+					logging.debug("We have obtained this completion inside complete_with_model:"\
+						" \"%s\". The condition for loop is %s"%(completion,\
+						completion == None or (limit_use and len(completion) > 15 )))
+					logging.debug("tries: %s, limit_use: %s, len(completion):%s"%(tries,\
+									limit_use, len(completion)))
+					tries += 1
+					
+					
+				if len(completion) < config.MIN_LEN:
+					#the later part aways uses model3
+					addition = None
+					while addition == None:
+						try:
+							addition = self.models['model3'].make_sentence()
+						except:
+							pass
+					completion += " " + addition
+				logging.debug("We obtained the completion %s"%completion)
+				return "..." + self.remove_first_words(completion, amount)
+			except:
+				return None
+				
+				
+	#This return a completion if the model can handle the sentence and None if not
+	def complete_sentence(self, sentence):
+		ending, amount = self.get_last_words(sentence)
+		logging.debug("\nEnding:{}\nAmount:{}".format(ending, amount))
+		
+		if amount == 3:
+			completion = self.complete_with_model(ending, self.models['model3'], 3)
+			if completion != None:
+				return completion
+			amount = 2
+			ending = self.remove_first_words(ending, 1)
+		if amount == 2:
+			completion = self.complete_with_model(ending, self.models['model2'], 2)
+			logging.debug("We achieved the following completion on 2 words:\n{}".format(\
+							completion))
+			if completion != None:
+				return completion
+			amount = 1
+			ending = self.remove_first_words(ending, 1)
+		if amount == 1:
+			completion = self.complete_with_model(ending, self.models['model1'], 1, True)
+			logging.debug("We achieved the following completion on 1 word:\n{}".format(\
+							completion))
+			if completion != None:
+				return completion
+		return None
 			
 
 
@@ -331,8 +352,12 @@ def run():
 	database = Database()
 	reddit = login()
 	
+	logging.info("Loading models")
+	handler = get_asoiaf_handler()
+	
 	logging.info("Checking inbox.")
 	check_inbox(reddit,database)
+	
 	
 	logging.info("Deleting bad replies.")
 	delete_bad_comments(reddit)
@@ -369,7 +394,7 @@ def run():
 				logging.info("Found matching comment!")
 				logging.info(comment.body[-50:])
 				
-				completion = complete_sentence(comment.body)
+				completion = handler.complete_sentence(comment.body)
 				logging.info('Completion: %s'%completion)
 				if completion != None and "::" not in completion:
 					#reply_completion(comment, completion)
@@ -389,35 +414,37 @@ def run():
 		"In this run we added %s comments to the database.\n"%len(replied_comments) +
 		"The database has a total of %s comments."%database.get_size())
 		
+		
+	database.cursor.execute("VACUUM;")
+	database.connection.commit()
 	database.connection.close()
 
 				
 
 				
-
+def get_star_wars_handler():
+	handler = Handler({'model1':'starwars 1 pos.txt',
+				'model2':'starwars 2 pos.txt',
+				'model3':'starwars 3 pos.txt'})
+	return handler
+	
+def get_sando_handler():
+	handler = Handler({'model1':'brando 1 pos.txt',
+				'model2':'brando 2 pos.txt',
+				'model3':'brando 3 pos.txt'})
+	return handler
 				
-# endings = ["This is turning...","What is...", "to focus..."]
-# for sentence in endings:
-	# print("-----------------------------------------------------------")
-	# for i in range (5):
-		# try:
-			# completion = None
-			# while completion == None:
-				# completion = complete_sentence(sentence)
-				# print(completion)
-				# time.sleep(1)
-			# print(completion)
-				
-		# except Exception as e:
-			# logging.critical(e, exc_info=True)
-				
+def get_asoiaf_handler():
+	handler = Handler({'model1':'asoiaf 1 pos.txt',
+				'model2':'asoiaf 2 pos.txt',
+				'model3':'asoiaf 3 pos.txt'})
+	return handler
 
 
 					
 				
 				
 				
-				
-				
+			
 				
 				
