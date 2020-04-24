@@ -1,9 +1,14 @@
-from autocompletebot import *
-while True:
-	try:
-		run()
-	except Exception as e:
-		logging.critical(e, exc_info=True)
-	logging.info("Sleeping...")
-	time.sleep(config.SLEEP_TIME)
+from autocompletebot import Handler, run_handler, logging, time, config
+# logging.basicConfig(level=logging.INFO)
+logging.basicConfig(filename="log.log", level=logging.DEBUG,
+					filemode="w")
+
+handler = Handler.get_sando_handler()
+run_handler(handler, 'cremposting')
+handler = Handler.get_asoiaf_handler()
+run_handler(handler, 'freefolk')
+handler = Handler.get_star_wars_handler()
+run_handler(handler, 'PrequelMemes')
+
+time.sleep(config.SLEEP_TIME)
 				

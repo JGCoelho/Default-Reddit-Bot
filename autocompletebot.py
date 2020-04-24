@@ -1,7 +1,8 @@
-import markovify, re, json, praw, datetime, time, sqlite3
+import markovify, re, json, praw, datetime, time, sqlite3, random
 import reddit_config as config
 import logging 
-logging.basicConfig(level=logging.INFO)
+
+
 
 
 
@@ -12,78 +13,48 @@ logging.basicConfig(level=logging.INFO)
 	
 #####################################################################################################################
 #####################################################################################################################
-logging.info("Loading natural language library...")
+
 
 import nltk
 class POSifiedText(markovify.Text):
-    def word_split(self, sentence):
-        words = re.split(self.word_split_pattern, sentence)
-        words = [ "::".join(tag) for tag in nltk.pos_tag(words) ]
-        return words
+	def word_split(self, sentence):
+		words = re.split(self.word_split_pattern, sentence)
+		words = [ "::".join(tag) for tag in nltk.pos_tag(words) ]
+		return words
 
-    def word_join(self, words):
-        sentence = " ".join(word.split("::")[0] for word in words)
-        return sentence
+	def word_join(self, words):
+		sentence = " ".join(word.split("::")[0] for word in words)
+		return sentence
 
 
 
 def save_model_as_json(text_model, file_name):
 	model_json = text_model.to_json()
-	with open(config.MODELS_FOLDER + file_name, 'w') as outfile:
+	with open('models\\' + file_name + '.json', 'w') as outfile:
 		json.dump(model_json, outfile)
 		
-def load_model_from_json(file_name,pos = False):
+def load_model_from_json(file_name,pos = True):
 	with open(config.MODELS_FOLDER + file_name) as json_file:
 		if pos:
 			return POSifiedText.from_json(json.load(json_file))		
 		return markovify.Text.from_json(json.load(json_file))
 		
-def create_models_and_save(sample_file, output_name, pos = False):
+def create_models_and_save(sample_file, output_name, pos = True):
 	def create_model_and_save(state_size):
 		with open(sample_file, 'r', encoding = "utf-8") as file:
 			if pos:
 				model = POSifiedText(file, state_size)
-				model_type = "pos.txt"
+				model_type = "pos"
 			else:
 				model = markovify.Text(file, state_size)
-				model_type = "mark.txt"
+				model_type = "mark"
 			save_model_as_json(model, output_name + " " \
 						+ str(state_size) + " " + model_type)
 	for i in range(1,4):# 1, 2, 3
 		create_model_and_save(i)
 	
 		
-		
 
-
-
-		
-
-	
-# logging.info("Setting up models...")
-# model3 = load_model_from_json('model brando 3 word.txt')
-# model2 = load_model_from_json('model brando 2 word.txt')
-# model1 = load_model_from_json('model brando 1 word.txt')
-	
-	
-
-# model3 = load_model_from_json('brando 3 pos.txt', True)
-# model2 = load_model_from_json('brando 2 pos.txt', True)
-# model1 = load_model_from_json('brando 1 pos.txt', True)
-
-# model3 = load_model_from_json('starwars 3 pos.txt', True)
-# model2 = load_model_from_json('starwars 2 pos.txt', True)
-# model1 = load_model_from_json('starwars 1 pos.txt', True)
-
-# with open('brando 2 pos.txt') as json_file:
-	# model2 = POSifiedText.from_json(json.load(json_file))
-	
-# with open('brando 1 pos.txt') as json_file:
-	# model1 =POSifiedText.from_json(json.load(json_file))
-	
-# logging.info("Setup complete.")
-
-#####################################################################################################################
 
 
 ######################################################################################################################		
@@ -250,7 +221,7 @@ class Handler:
 			completion = None
 			try:
 				tries = 0
-				while completion == None or (limit_use and len(completion) > 25 ):
+				while completion == None or (limit_use and len(completion) > 20 ):
 					if tries > 15:
 						break
 					logging.debug("We have this value for the ending:"\
@@ -298,14 +269,35 @@ class Handler:
 				return completion
 			amount = 1
 			ending = self.remove_first_words(ending, 1)
-		if amount == 1:
+		elif amount == 1:
 			completion = self.complete_with_model(ending, self.models['model1'], 1, True)
 			logging.debug("We achieved the following completion on 1 word:\n{}".format(\
 							completion))
 			if completion != None:
 				return completion
 		return None
-			
+
+	#factories for common handlers
+	@staticmethod
+	def get_star_wars_handler():
+		handler = Handler({'model1':'starwars 1 pos.json',
+					'model2':'starwars 2 pos.json',
+					'model3':'starwars 3 pos.json'})
+		return handler
+		
+	@staticmethod
+	def get_sando_handler():
+		handler = Handler({'model1':'brando 1 pos.txt',
+					'model2':'brando 2 pos.txt',
+					'model3':'brando 3 pos.txt'})
+		return handler
+
+	@staticmethod		
+	def get_asoiaf_handler():
+		handler = Handler({'model1':'asoiaf 1 pos.txt',
+					'model2':'asoiaf 2 pos.txt',
+					'model3':'asoiaf 3 pos.txt'})
+		return handler
 
 
 #########################################################################################
@@ -327,7 +319,8 @@ def check_inbox(reddit, database):
 	for reply in reddit.inbox.comment_replies():
 		if config.SAFE_WORD in reply.body and not database.check_banned(reply.author):
 			logging.info(reply.author)
-			reply.reply("*The bot commits sepuku.*")
+			ban_msg = random.choice(config.BAN_MSGS)
+			reply.reply("*{}*".format(ban_msg))
 			database.ban_author(reply.author)
 			#logging.info("%s is banned!"%reply.author.name)
 			
@@ -335,7 +328,8 @@ def reply_completion(comment, completion):
 	message = " {}\n\n {}\n\n {} {}".format(completion,
 		"-------------------------------------------------------",
 		"^^I ^^am ^^a ^^bot, ^^this ^^reply ^^was ^^perfomed ^^automatically.",
-		"^^Reply ^^!NOMORE ^^if ^^you ^^would ^^like ^^me ^^to ^^stop ^^replying ^^to ^^your ^^comments.")
+		"^^Reply ^^{} ^^if ^^you ^^would ^^like ^^me ^^to ^^stop ^^replying ^^to ^^your ^^comments.".format(\
+			config.SAFE_WORD))
 	comment.reply(message)
 	
 def delete_bad_comments(reddit):
@@ -347,15 +341,11 @@ def delete_bad_comments(reddit):
 
 			
 	
-def run():
+def run(sub_name,handler):
 	replied_comments = []
 	database = Database()
 	reddit = login()
 	
-	logging.info("Loading models")
-	handler = get_asoiaf_handler()
-	
-	logging.info("Checking inbox.")
 	check_inbox(reddit,database)
 	
 	
@@ -363,7 +353,7 @@ def run():
 	delete_bad_comments(reddit)
 	
 	logging.info("Opening sub...")
-	sub = reddit.subreddit(config.SUB_NAME)
+	sub = reddit.subreddit(sub_name)
 	logging.info("Sub opened!")
 	logging.info("Getting posts...")
 	hot_submissions = sub.hot(limit = config.NUM_OF_POSTS)
@@ -397,7 +387,7 @@ def run():
 				completion = handler.complete_sentence(comment.body)
 				logging.info('Completion: %s'%completion)
 				if completion != None and "::" not in completion:
-					#reply_completion(comment, completion)
+					reply_completion(comment, completion)
 					database.add_to(comment, completion)
 					replied_comments.append([post.url,comment.body[-50:],completion])
 				else:
@@ -419,26 +409,19 @@ def run():
 	database.connection.commit()
 	database.connection.close()
 
+
+def run_handler (handler, sub_name):
+	try:
+		logging.info("Running handler on {}.".format(sub_name))
+		run(sub_name, handler)
+	except Exception as e:
+		logging.critical(e, exc_info=True)
+	
+
 				
 
 				
-def get_star_wars_handler():
-	handler = Handler({'model1':'starwars 1 pos.txt',
-				'model2':'starwars 2 pos.txt',
-				'model3':'starwars 3 pos.txt'})
-	return handler
-	
-def get_sando_handler():
-	handler = Handler({'model1':'brando 1 pos.txt',
-				'model2':'brando 2 pos.txt',
-				'model3':'brando 3 pos.txt'})
-	return handler
-				
-def get_asoiaf_handler():
-	handler = Handler({'model1':'asoiaf 1 pos.txt',
-				'model2':'asoiaf 2 pos.txt',
-				'model3':'asoiaf 3 pos.txt'})
-	return handler
+
 
 
 					

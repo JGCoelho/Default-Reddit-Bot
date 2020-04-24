@@ -1,0 +1,977 @@
+INFO:root:Running handler on cremposting.
+INFO:root:Logging in...
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): updatechecker.bryceboe.com:80
+DEBUG:urllib3.connectionpool:http://updatechecker.bryceboe.com:80 "PUT /check HTTP/1.1" 200 23
+INFO:root:Logged!
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/message/comments/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 100, 'raw_json': 1}
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): www.reddit.com:443
+DEBUG:urllib3.connectionpool:https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 118
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): oauth.reddit.com:443
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /message/comments/?limit=100&raw_json=1 HTTP/1.1" 200 4965
+DEBUG:prawcore:Response: 200 (4965 bytes)
+INFO:root:Deleting bad replies.
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/api/v1/me
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'raw_json': 1}
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /api/v1/me?raw_json=1 HTTP/1.1" 200 1531
+DEBUG:prawcore:Response: 200 (1531 bytes)
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/user/sandocomplete/comments
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'sort': 'new', 'limit': 10, 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.05 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /user/sandocomplete/comments?sort=new&limit=10&raw_json=1 HTTP/1.1" 200 3577
+DEBUG:prawcore:Response: 200 (3577 bytes)
+INFO:root:Opening sub...
+INFO:root:Sub opened!
+INFO:root:Getting posts...
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/r/cremposting/hot
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 20, 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /r/cremposting/hot?limit=20&raw_json=1 HTTP/1.1" 200 18957
+DEBUG:prawcore:Response: 200 (18957 bytes)
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/cremposting/comments/b18ct5/announcing_the_monthly_mods_choice_awards/
+INFO:root:Post was archived
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/cremposting/comments/fr8m7l/best_of_2019_awards_and_25k_subs/
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/fr8m7l/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/fr8m7l/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 5815
+DEBUG:prawcore:Response: 200 (5815 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/bm5bxu7reou41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g705gs/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g705gs/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 9346
+DEBUG:prawcore:Response: 200 (9346 bytes)
+INFO:root:Couldn't find author.
+INFO:root:Couldn't find author.
+INFO:root:-------------------------------------------------------
+https://i.redd.it/dvi1vhjajou41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g70iod/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.03 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g70iod/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2122
+DEBUG:prawcore:Response: 200 (2122 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/edr8nocgmqu41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g75men/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g75men/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2009
+DEBUG:prawcore:Response: 200 (2009 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/x9iotira3ru41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g76pv3/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g76pv3/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2479
+DEBUG:prawcore:Response: 200 (2479 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/euyrg4ka2ou41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6z4px/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6z4px/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3872
+DEBUG:prawcore:Response: 200 (3872 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/6e8snrp5pmu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6ufdz/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6ufdz/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2394
+DEBUG:prawcore:Response: 200 (2394 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/oov2zri5eku41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6m35l/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6m35l/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3918
+DEBUG:prawcore:Response: 200 (3918 bytes)
+INFO:root:Already replied to comment
+INFO:root:-------------------------------------------------------
+https://i.redd.it/jgqpnnbfqru41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g78g8m/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g78g8m/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2539
+DEBUG:prawcore:Response: 200 (2539 bytes)
+INFO:root:-------------------------------------------------------
+https://imgur.com/HtybqzU
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6op6j/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6op6j/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 4478
+DEBUG:prawcore:Response: 200 (4478 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/uphzh0ohslu41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6zxki/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.03 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6zxki/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3907
+DEBUG:prawcore:Response: 200 (3907 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/d47g2ppypqu41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g75uj8/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g75uj8/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 1793
+DEBUG:prawcore:Response: 200 (1793 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/5z99bblqapu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g72kp7/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g72kp7/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2179
+DEBUG:prawcore:Response: 200 (2179 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/r6bp3zhxzou41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g71tb4/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g71tb4/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2503
+DEBUG:prawcore:Response: 200 (2503 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/srnqsek2enu41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6wwwo/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6wwwo/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2365
+DEBUG:prawcore:Response: 200 (2365 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/36svrexuipu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g733r9/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g733r9/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 1775
+DEBUG:prawcore:Response: 200 (1775 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/4n04hm0u6ku41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6lify/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6lify/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2924
+DEBUG:prawcore:Response: 200 (2924 bytes)
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/cremposting/comments/g724q9/all_whores_be_like/
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g724q9/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.03 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g724q9/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 1688
+DEBUG:prawcore:Response: 200 (1688 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/b19st5ew3ou41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6z9kb/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.04 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6z9kb/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2524
+DEBUG:prawcore:Response: 200 (2524 bytes)
+INFO:root:-------------------------------------------------------
+The replies in this run:
+INFO:root:-------------------------------------------------------
+In this run we added 0 comments to the database.
+The database has a total of 199 comments.
+INFO:root:Running handler on freefolk.
+INFO:root:Logging in...
+INFO:root:Logged!
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/message/comments/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 100, 'raw_json': 1}
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): www.reddit.com:443
+DEBUG:urllib3.connectionpool:https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 118
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): oauth.reddit.com:443
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /message/comments/?limit=100&raw_json=1 HTTP/1.1" 200 5050
+DEBUG:prawcore:Response: 200 (5050 bytes)
+INFO:root:Deleting bad replies.
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/api/v1/me
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.99 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /api/v1/me?raw_json=1 HTTP/1.1" 200 1532
+DEBUG:prawcore:Response: 200 (1532 bytes)
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/user/sandocomplete/comments
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'sort': 'new', 'limit': 10, 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 1.00 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /user/sandocomplete/comments?sort=new&limit=10&raw_json=1 HTTP/1.1" 200 3573
+DEBUG:prawcore:Response: 200 (3573 bytes)
+INFO:root:Opening sub...
+INFO:root:Sub opened!
+INFO:root:Getting posts...
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/r/freefolk/hot
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 20, 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.99 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /r/freefolk/hot?limit=20&raw_json=1 HTTP/1.1" 200 15015
+DEBUG:prawcore:Response: 200 (15015 bytes)
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/freefolk/comments/g6iq2j/thenn_thursdays_lots_of_people_like_arts_and/
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6iq2j/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.99 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6iq2j/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 1757
+DEBUG:prawcore:Response: 200 (1757 bytes)
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/freefolk/comments/g74hc9/daily_rfreefolk_free_talk_thread_april_24_2020/
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g74hc9/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.99 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g74hc9/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2103
+DEBUG:prawcore:Response: 200 (2103 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/amw5xq465ru41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g76tm3/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 1.00 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g76tm3/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 15950
+DEBUG:prawcore:Response: 200 (15950 bytes)
+INFO:root:Found matching comment!
+INFO:root:oll. I've been on this cursed site for too long...
+DEBUG:root:Extracting ending of sentence "Fully expected a rickroll. I've been on this cursed site for too long..."
+DEBUG:root:
+Ending:for too long
+Amount:3
+DEBUG:root:We have this value for the ending: "for too long", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "too long", AMOUNT = 2
+DEBUG:root:We have obtained this completion inside complete_with_model: "too long to discover the crying girl up over his lips.". The condition for loop is False
+DEBUG:root:tries: 0, limit_use: False, len(completion):54
+DEBUG:root:We obtained the completion too long to discover the crying girl up over his lips. dais as silent as Will, and it had not taken her uncle Brynden west with him.
+DEBUG:root:We achieved the following completion on 2 words:
+...to discover the crying girl up over his lips. dais as silent as Will, and it had not taken her uncle Brynden west with him.
+INFO:root:Completion: ...to discover the crying girl up over his lips. dais as silent as Will, and it had not taken her uncle Brynden west with him.
+DEBUG:prawcore:Fetching: POST https://oauth.reddit.com/api/comment/
+DEBUG:prawcore:Data: [('api_type', 'json'), ('text', ' ...to discover the crying girl up over his lips. dais as silent as Will, and it had not taken her uncle Brynden west with him.\n\n -------------------------------------------------------\n\n ^^I ^^am ^^a ^^bot, ^^this ^^reply ^^was ^^perfomed ^^automatically. ^^Reply ^^!NOMORE ^^if ^^you ^^would ^^like ^^me ^^to ^^stop ^^replying ^^to ^^your ^^comments.'), ('thing_id', 't1_foftz6w')]
+DEBUG:prawcore:Params: {'raw_json': 1}
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "POST /api/comment/?raw_json=1 HTTP/1.1" 200 1139
+DEBUG:prawcore:Response: 200 (1139 bytes)
+INFO:root:Adding comment to database...
+INFO:root:Comment added!!!!!!!!
+INFO:root:Found matching comment!
+INFO:root:Fuck...
+DEBUG:root:Extracting ending of sentence "Fuck..."
+DEBUG:root:Could not return three words
+DEBUG:root:Could not return two words
+DEBUG:root:
+Ending:Fuck
+Amount:1
+DEBUG:root:We have this value for the ending: "Fuck", AMOUNT = 1
+DEBUG:root:We have obtained this completion inside complete_with_model: "None". The condition for loop is True
+DEBUG:root:We achieved the following completion on 1 word:
+None
+INFO:root:Completion: None
+INFO:root:Found matching comment!
+INFO:root:Hmmmmmmm.....
+DEBUG:root:Extracting ending of sentence "Hmmmmmmm....."
+DEBUG:root:Could not return three words
+DEBUG:root:Could not return two words
+DEBUG:root:
+Ending:Hmmmmmmm
+Amount:1
+DEBUG:root:We have this value for the ending: "Hmmmmmmm", AMOUNT = 1
+DEBUG:root:We achieved the following completion on 1 word:
+None
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://i.redd.it/dz8936xk8nu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6wdyk/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.49 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6wdyk/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 70722
+DEBUG:prawcore:Response: 200 (70722 bytes)
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:Couldn't find author.
+INFO:root:Found matching comment!
+INFO:root: cut it short to preserve the story's integrity...
+DEBUG:root:Extracting ending of sentence "Damn. I'm not going to fault your committment, but I spent like $40 each on those box sets lol. Still holding out hope that one day, I'll come around to at least my favorite seasons. Or maybe I'll meet someone who never saw them or really followed it, and I can craft a world of lies around them wherein the show was abruptly cancelled when the directors, having run out of original source material, decided it would be better to cut it short to preserve the story's integrity..."
+DEBUG:root:
+Ending:the story's integrity
+Amount:3
+DEBUG:root:We have this value for the ending: "the story's integrity", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "story's integrity", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Found matching comment!
+INFO:root:u do you but that is just such strange behavior...
+DEBUG:root:Extracting ending of sentence "I mean you do you but that is just such strange behavior..."
+DEBUG:root:
+Ending:such strange behavior
+Amount:3
+DEBUG:root:We have this value for the ending: "such strange behavior", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "strange behavior", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:-------------------------------------------------------
+https://i.redd.it/d6gv2tu89qu41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g74t41/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.85 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g74t41/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2719
+DEBUG:prawcore:Response: 200 (2719 bytes)
+INFO:root:-------------------------------------------------------
+https://v.redd.it/ddeg34jlqju41
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6kexf/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.98 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6kexf/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 96120
+DEBUG:prawcore:Response: 200 (96120 bytes)
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:Found matching comment!
+INFO:root: did the lightsaber duels in the sequel trilogy...
+DEBUG:root:Extracting ending of sentence "Imagine if he did the lightsaber duels in the sequel trilogy..."
+DEBUG:root:
+Ending:the sequel trilogy
+Amount:3
+DEBUG:root:We have this value for the ending: "the sequel trilogy", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "sequel trilogy", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:Found matching comment!
+INFO:root:g is we need a live action Drizzt with this guy...
+DEBUG:root:Extracting ending of sentence "So what you're really saying is we need a live action Drizzt with this guy..."
+DEBUG:root:
+Ending:with this guy
+Amount:3
+DEBUG:root:We have this value for the ending: "with this guy", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "this guy", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Found matching comment!
+INFO:root:ut Season 8. Off I go to write more fan fiction...
+DEBUG:root:Extracting ending of sentence "Dammit I can’t ever find a reason to not be mad about Season 8. Off I go to write more fan fiction..."
+DEBUG:root:
+Ending:more fan fiction
+Amount:3
+DEBUG:root:We have this value for the ending: "more fan fiction", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "fan fiction", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Found matching comment!
+INFO:root:ackwater, Watchers on the Wall, Hardhome, BoTB....
+DEBUG:root:Extracting ending of sentence "Also the best fight scenes in GoT he didn’t choreograph them either. Blackwater, Watchers on the Wall, Hardhome, BoTB...."
+DEBUG:root:
+Ending:Wall, Hardhome, BoTB
+Amount:3
+DEBUG:root:We have this value for the ending: "Wall, Hardhome, BoTB", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "Hardhome, BoTB", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Found matching comment!
+INFO:root:t, the Witcher book series is actually amazing....
+DEBUG:root:Extracting ending of sentence ">Also double sad considering Game of Thrones had much higher quality book content to be based off of, and yet D&D managed to fuck that up. 
+
+I'm not sure I fully agree with that, the Witcher book series is actually amazing...."
+DEBUG:root:
+Ending:is actually amazing
+Amount:3
+DEBUG:root:We have this value for the ending: "is actually amazing", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "actually amazing", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Found matching comment!
+INFO:root:I was abt to say this looks like the ToJ...
+DEBUG:root:Extracting ending of sentence "I was abt to say this looks like the ToJ..."
+DEBUG:root:
+Ending:like the ToJ
+Amount:3
+DEBUG:root:We have this value for the ending: "like the ToJ", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "the ToJ", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://i.redd.it/fvjlrl1irru41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g78k92/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.84 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g78k92/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3791
+DEBUG:prawcore:Response: 200 (3791 bytes)
+INFO:root:Found matching comment!
+INFO:root:a would’ve been wrong to mistrust her.
+
+Oh wait...
+DEBUG:root:Extracting ending of sentence "Well to be fair, Brienne earned Sanaa’s trust by saving her life.
+
+Maybe if Dany had saved Sansa’s life, or perhaps the life of someone she loves, like Jon, then Sansa would’ve been wrong to mistrust her.
+
+Oh wait..."
+DEBUG:root:
+Ending:
+Oh wait
+Amount:3
+DEBUG:root:We have this value for the ending: "
+Oh wait", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "wait", AMOUNT = 2
+DEBUG:root:We have obtained this completion inside complete_with_model: "wait at Riverrun with all their goods and weapons are returned to King's Landing by the wet green wild, and soon enough once Summer was gone.". The condition for loop is False
+DEBUG:root:tries: 0, limit_use: False, len(completion):141
+DEBUG:root:We obtained the completion wait at Riverrun with all their goods and weapons are returned to King's Landing by the wet green wild, and soon enough once Summer was gone.
+DEBUG:root:We achieved the following completion on 2 words:
+...Riverrun with all their goods and weapons are returned to King's Landing by the wet green wild, and soon enough once Summer was gone.
+INFO:root:Completion: ...Riverrun with all their goods and weapons are returned to King's Landing by the wet green wild, and soon enough once Summer was gone.
+DEBUG:prawcore:Fetching: POST https://oauth.reddit.com/api/comment/
+DEBUG:prawcore:Data: [('api_type', 'json'), ('text', " ...Riverrun with all their goods and weapons are returned to King's Landing by the wet green wild, and soon enough once Summer was gone.\n\n -------------------------------------------------------\n\n ^^I ^^am ^^a ^^bot, ^^this ^^reply ^^was ^^perfomed ^^automatically. ^^Reply ^^!NOMORE ^^if ^^you ^^would ^^like ^^me ^^to ^^stop ^^replying ^^to ^^your ^^comments."), ('thing_id', 't1_fofo9ay')]
+DEBUG:prawcore:Params: {'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.96 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "POST /api/comment/?raw_json=1 HTTP/1.1" 200 1171
+DEBUG:prawcore:Response: 200 (1171 bytes)
+INFO:root:Adding comment to database...
+INFO:root:Comment added!!!!!!!!
+INFO:root:-------------------------------------------------------
+https://i.redd.it/mormp42hnku41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6mvte/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6mvte/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 10141
+DEBUG:prawcore:Response: 200 (10141 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/aju0ccp55ru41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g76tjw/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.97 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g76tjw/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 1912
+DEBUG:prawcore:Response: 200 (1912 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/owzv1g534ru41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g76ruu/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.98 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g76ruu/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2104
+DEBUG:prawcore:Response: 200 (2104 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/9gdmicnpkru41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g77yvz/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.97 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g77yvz/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3138
+DEBUG:prawcore:Response: 200 (3138 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/m2r07iadhqu41.gif
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g75aqu/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.98 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g75aqu/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3888
+DEBUG:prawcore:Response: 200 (3888 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/rdwgjthblqu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g75jo1/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.97 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g75jo1/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2221
+DEBUG:prawcore:Response: 200 (2221 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/paewjy6bpou41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g70zk8/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.97 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g70zk8/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 1600
+DEBUG:prawcore:Response: 200 (1600 bytes)
+INFO:root:-------------------------------------------------------
+https://v.redd.it/8rgjpaw5wqu41
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g769i3/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.97 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g769i3/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2521
+DEBUG:prawcore:Response: 200 (2521 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/0ercpv86jgu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6cc9i/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.97 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6cc9i/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 38057
+DEBUG:prawcore:Response: 200 (38057 bytes)
+INFO:root:Found matching comment!
+INFO:root:The plot armor thickens...
+DEBUG:root:Extracting ending of sentence "The plot armor thickens..."
+DEBUG:root:
+Ending:plot armor thickens
+Amount:3
+DEBUG:root:We have this value for the ending: "plot armor thickens", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "armor thickens", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Couldn't find author.
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:Couldn't find author.
+INFO:root:Already replied to comment
+INFO:root:-------------------------------------------------------
+https://i.redd.it/2ls9rt0mkpu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g73825/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.92 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g73825/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3162
+DEBUG:prawcore:Response: 200 (3162 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/3avsqjcdequ41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g75774/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.97 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g75774/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3698
+DEBUG:prawcore:Response: 200 (3698 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/xew4uvoo6mu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6sgy4/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.97 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6sgy4/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 6885
+DEBUG:prawcore:Response: 200 (6885 bytes)
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/freefolk/comments/g7akx2/as_difficult_as_its_going_to_be_ive_decided_to/
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g7akx2/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.96 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g7akx2/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 1909
+DEBUG:prawcore:Response: 200 (1909 bytes)
+INFO:root:-------------------------------------------------------
+The replies in this run:
+INFO:root:-------------------------------------------------------
+https://i.redd.it/amw5xq465ru41.png
+oll. I've been on this cursed site for too long...
+...to discover the crying girl up over his lips. dais as silent as Will, and it had not taken her uncle Brynden west with him.
+INFO:root:-------------------------------------------------------
+https://i.redd.it/fvjlrl1irru41.png
+a would’ve been wrong to mistrust her.
+
+Oh wait...
+...Riverrun with all their goods and weapons are returned to King's Landing by the wet green wild, and soon enough once Summer was gone.
+INFO:root:-------------------------------------------------------
+In this run we added 2 comments to the database.
+The database has a total of 201 comments.
+INFO:root:Running handler on PrequelMemes.
+INFO:root:Logging in...
+INFO:root:Logged!
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/message/comments/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 100, 'raw_json': 1}
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): www.reddit.com:443
+DEBUG:urllib3.connectionpool:https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 118
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): oauth.reddit.com:443
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /message/comments/?limit=100&raw_json=1 HTTP/1.1" 200 5046
+DEBUG:prawcore:Response: 200 (5046 bytes)
+INFO:root:Deleting bad replies.
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/api/v1/me
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.94 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /api/v1/me?raw_json=1 HTTP/1.1" 200 1532
+DEBUG:prawcore:Response: 200 (1532 bytes)
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/user/sandocomplete/comments
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'sort': 'new', 'limit': 10, 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.95 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /user/sandocomplete/comments?sort=new&limit=10&raw_json=1 HTTP/1.1" 200 3705
+DEBUG:prawcore:Response: 200 (3705 bytes)
+INFO:root:Opening sub...
+INFO:root:Sub opened!
+INFO:root:Getting posts...
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/r/PrequelMemes/hot
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 20, 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.94 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /r/PrequelMemes/hot?limit=20&raw_json=1 HTTP/1.1" 200 16118
+DEBUG:prawcore:Response: 200 (16118 bytes)
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/PrequelMemes/comments/g78lbb/the_clone_wars_s7e10_discussion_thread/
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g78lbb/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.94 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g78lbb/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 35156
+DEBUG:prawcore:Response: 200 (35156 bytes)
+INFO:root:Found matching comment!
+INFO:root: clones will have to execute Order 66 on Ahsoka...
+DEBUG:root:Extracting ending of sentence "I really wonder where they're going to take this.
+
+&#x200B;
+
+Maul is captured and Ahsoka certainly has to see Anakin and influence him before he turns.
+
+&#x200B;
+
+I also just realized that Rex's clones will have to execute Order 66 on Ahsoka..."
+DEBUG:root:
+Ending:66 on Ahsoka
+Amount:3
+DEBUG:root:We have this value for the ending: "66 on Ahsoka", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "on Ahsoka", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Found matching comment!
+INFO:root:t exactly did he say there? It has been a while...
+DEBUG:root:Extracting ending of sentence "> And possibly get a rematch if what he says in Rebels is true.
+
+Remind me again, what exactly did he say there? It has been a while..."
+DEBUG:root:
+Ending:been a while
+Amount:3
+DEBUG:root:We have this value for the ending: "been a while", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "a while", AMOUNT = 2
+DEBUG:root:We have obtained this completion inside complete_with_model: "a while to revive the Jedi and Republic as one offers up a position on the controls, assessing their damage, trying to talk to his breast and rocked her there for a moment, then melted and gone.". The condition for loop is False
+DEBUG:root:tries: 0, limit_use: False, len(completion):194
+DEBUG:root:We obtained the completion a while to revive the Jedi and Republic as one offers up a position on the controls, assessing their damage, trying to talk to his breast and rocked her there for a moment, then melted and gone.
+DEBUG:root:We achieved the following completion on 2 words:
+...to revive the Jedi and Republic as one offers up a position on the controls, assessing their damage, trying to talk to his breast and rocked her there for a moment, then melted and gone.
+INFO:root:Completion: ...to revive the Jedi and Republic as one offers up a position on the controls, assessing their damage, trying to talk to his breast and rocked her there for a moment, then melted and gone.
+DEBUG:prawcore:Fetching: POST https://oauth.reddit.com/api/comment/
+DEBUG:prawcore:Data: [('api_type', 'json'), ('text', ' ...to revive the Jedi and Republic as one offers up a position on the controls, assessing their damage, trying to talk to his breast and rocked her there for a moment, then melted and gone.\n\n -------------------------------------------------------\n\n ^^I ^^am ^^a ^^bot, ^^this ^^reply ^^was ^^perfomed ^^automatically. ^^Reply ^^!NOMORE ^^if ^^you ^^would ^^like ^^me ^^to ^^stop ^^replying ^^to ^^your ^^comments.'), ('thing_id', 't1_fofsct2')]
+DEBUG:prawcore:Params: {'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.88 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "POST /api/comment/?raw_json=1 HTTP/1.1" 200 1182
+DEBUG:prawcore:Response: 200 (1182 bytes)
+INFO:root:Adding comment to database...
+INFO:root:Comment added!!!!!!!!
+INFO:root:Found matching comment!
+INFO:root:ey show where he left his lightsaber collection...
+DEBUG:root:Extracting ending of sentence "Unless they show where he left his lightsaber collection..."
+DEBUG:root:
+Ending:his lightsaber collection
+Amount:3
+DEBUG:root:We have this value for the ending: "his lightsaber collection", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "lightsaber collection", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/PrequelMemes/comments/fmfn2x/star_wars_the_clone_wars_s7_discussion_threads/
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/fmfn2x/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.60 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/fmfn2x/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 1729
+DEBUG:prawcore:Response: 200 (1729 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/6z9tnl66hqu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g75a3j/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.94 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g75a3j/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 31253
+DEBUG:prawcore:Response: 200 (31253 bytes)
+INFO:root:Found matching comment!
+INFO:root:Like he actually cares...
+DEBUG:root:Extracting ending of sentence "Like he actually cares..."
+DEBUG:root:
+Ending:he actually cares
+Amount:3
+DEBUG:root:We have this value for the ending: "he actually cares", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "actually cares", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Already replied to comment
+INFO:root:Found matching comment!
+INFO:root:This is not good...
+DEBUG:root:Extracting ending of sentence "This is not good..."
+DEBUG:root:
+Ending:is not good
+Amount:3
+DEBUG:root:We have this value for the ending: "is not good", AMOUNT = 3
+DEBUG:root:We have obtained this completion inside complete_with_model: "None". The condition for loop is True
+DEBUG:root:We have this value for the ending: "not good", AMOUNT = 2
+DEBUG:root:We have obtained this completion inside complete_with_model: "not good at running away.". The condition for loop is False
+DEBUG:root:tries: 0, limit_use: False, len(completion):25
+DEBUG:root:We obtained the completion not good at running away. The Republic’s taxation of the trade goods to Watto.
+DEBUG:root:We achieved the following completion on 2 words:
+...at running away. The Republic’s taxation of the trade goods to Watto.
+INFO:root:Completion: ...at running away. The Republic’s taxation of the trade goods to Watto.
+DEBUG:prawcore:Fetching: POST https://oauth.reddit.com/api/comment/
+DEBUG:prawcore:Data: [('api_type', 'json'), ('text', ' ...at running away. The Republic’s taxation of the trade goods to Watto.\n\n -------------------------------------------------------\n\n ^^I ^^am ^^a ^^bot, ^^this ^^reply ^^was ^^perfomed ^^automatically. ^^Reply ^^!NOMORE ^^if ^^you ^^would ^^like ^^me ^^to ^^stop ^^replying ^^to ^^your ^^comments.'), ('thing_id', 't1_fofrp9u')]
+DEBUG:prawcore:Params: {'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.89 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "POST /api/comment/?raw_json=1 HTTP/1.1" 200 1125
+DEBUG:prawcore:Response: 200 (1125 bytes)
+INFO:root:Adding comment to database...
+INFO:root:Comment added!!!!!!!!
+INFO:root:Already replied to comment
+INFO:root:Already replied to comment
+INFO:root:-------------------------------------------------------
+https://v.redd.it/xs2p3ohosru41
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g78o8z/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.66 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g78o8z/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 12880
+DEBUG:prawcore:Response: 200 (12880 bytes)
+INFO:root:Couldn't find author.
+INFO:root:-------------------------------------------------------
+https://i.redd.it/5tqz0frlypu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g745o1/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.91 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g745o1/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 6200
+DEBUG:prawcore:Response: 200 (6200 bytes)
+INFO:root:Found matching comment!
+INFO:root:Probably not, next episode is order 66.....
+DEBUG:root:Extracting ending of sentence "Probably not, next episode is order 66....."
+DEBUG:root:
+Ending:is order 66
+Amount:3
+DEBUG:root:We have this value for the ending: "is order 66", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "order 66", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://i.redd.it/ibh4b2gvxou41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g71nwe/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.92 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g71nwe/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 15763
+DEBUG:prawcore:Response: 200 (15763 bytes)
+INFO:root:Found matching comment!
+INFO:root:es from the Old Norse word vargr, meaning wolf....
+DEBUG:root:Extracting ending of sentence "The word warg comes from the Old Norse word vargr, meaning wolf...."
+DEBUG:root:
+Ending:vargr, meaning wolf
+Amount:3
+DEBUG:root:We have this value for the ending: "vargr, meaning wolf", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "meaning wolf", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://i.redd.it/qeyezb57oou41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g70wej/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.92 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g70wej/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 15645
+DEBUG:prawcore:Response: 200 (15645 bytes)
+INFO:root:Found matching comment!
+INFO:root:And a dash of complete nonsense.
+
+Oh shit...
+DEBUG:root:Extracting ending of sentence "And a dash of complete nonsense.
+
+Oh shit..."
+DEBUG:root:
+Ending:
+Oh shit
+Amount:3
+DEBUG:root:We have this value for the ending: "
+Oh shit", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "shit", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://i.redd.it/g8arlbry9pu41.gif
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g72khh/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.91 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g72khh/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 10414
+DEBUG:prawcore:Response: 200 (10414 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/z4up3wst2pu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g720rx/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.92 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g720rx/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 5060
+DEBUG:prawcore:Response: 200 (5060 bytes)
+INFO:root:Already replied to comment
+INFO:root:-------------------------------------------------------
+https://i.redd.it/v9fugt52jou41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g70i23/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.93 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g70i23/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 6134
+DEBUG:prawcore:Response: 200 (6134 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/nba6ubgufou41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g708jd/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.92 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g708jd/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 6702
+DEBUG:prawcore:Response: 200 (6702 bytes)
+INFO:root:-------------------------------------------------------
+https://imgur.com/bFLpj0D
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6zdy7/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.92 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6zdy7/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 13457
+DEBUG:prawcore:Response: 200 (13457 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/fe8af1x01ou41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6z1xz/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.91 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6z1xz/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 21696
+DEBUG:prawcore:Response: 200 (21696 bytes)
+INFO:root:Couldn't find author.
+INFO:root:Already replied to comment
+INFO:root:Found matching comment!
+INFO:root:st seniors in high school are one of those ages...
+DEBUG:root:Extracting ending of sentence "Not really but OK 
+
+Literally nobody would care if an 18 or 19 year was dating a 17 year old-- most seniors in high school are one of those ages..."
+DEBUG:root:
+Ending:of those ages
+Amount:3
+DEBUG:root:We have this value for the ending: "of those ages", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "those ages", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:Found matching comment!
+INFO:root:It's not the ok way...
+DEBUG:root:Extracting ending of sentence "It's not the ok way..."
+DEBUG:root:
+Ending:the ok way
+Amount:3
+DEBUG:root:We have this value for the ending: "the ok way", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "ok way", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://i.redd.it/k6gpwrx98pu41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g72elc/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.88 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g72elc/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 6976
+DEBUG:prawcore:Response: 200 (6976 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/vo62edyagru41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g77mc0/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.92 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g77mc0/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3273
+DEBUG:prawcore:Response: 200 (3273 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/a25zgwekdqu41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g7529c/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.92 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g7529c/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 4626
+DEBUG:prawcore:Response: 200 (4626 bytes)
+INFO:root:Already replied to comment
+INFO:root:Found matching comment!
+INFO:root:Nobody expects them...
+DEBUG:root:Extracting ending of sentence "Nobody expects them..."
+DEBUG:root:
+Ending:Nobody expects them
+Amount:3
+DEBUG:root:We have this value for the ending: "Nobody expects them", AMOUNT = 3
+DEBUG:root:We have this value for the ending: "expects them", AMOUNT = 2
+DEBUG:root:We achieved the following completion on 2 words:
+None
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://i.redd.it/8zdsjvgyvqu41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g76buk/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.91 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g76buk/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3312
+DEBUG:prawcore:Response: 200 (3312 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/xppg99km5ou41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g6zfle/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.93 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g6zfle/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 8194
+DEBUG:prawcore:Response: 200 (8194 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/d118wbwsqru41.jpg
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g78hh0/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.91 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g78hh0/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3673
+DEBUG:prawcore:Response: 200 (3673 bytes)
+INFO:root:-------------------------------------------------------
+https://i.redd.it/5jr51t5xfpu41.png
+DEBUG:prawcore:Fetching: GET https://oauth.reddit.com/comments/g72xiw/
+DEBUG:prawcore:Data: None
+DEBUG:prawcore:Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+DEBUG:prawcore:Sleeping: 0.92 seconds prior to call
+DEBUG:urllib3.connectionpool:https://oauth.reddit.com:443 "GET /comments/g72xiw/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3652
+DEBUG:prawcore:Response: 200 (3652 bytes)
+INFO:root:-------------------------------------------------------
+The replies in this run:
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/PrequelMemes/comments/g78lbb/the_clone_wars_s7e10_discussion_thread/
+t exactly did he say there? It has been a while...
+...to revive the Jedi and Republic as one offers up a position on the controls, assessing their damage, trying to talk to his breast and rocked her there for a moment, then melted and gone.
+INFO:root:-------------------------------------------------------
+https://i.redd.it/6z9tnl66hqu41.jpg
+This is not good...
+...at running away. The Republic’s taxation of the trade goods to Watto.
+INFO:root:-------------------------------------------------------
+In this run we added 2 comments to the database.
+The database has a total of 203 comments.
