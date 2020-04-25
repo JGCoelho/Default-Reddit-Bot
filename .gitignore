@@ -6,3 +6,5 @@ markov_database.db
 __pycache__/
 config_reddit.py
 failures.txt
+models/
+
