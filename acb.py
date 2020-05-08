@@ -8,19 +8,25 @@ import sqlite3
 import random
 import config as config
 import logging
-import nltk
+import spacy
+# import nltk.data
 
 logging.basicConfig(filename="log.log", level=logging.INFO,
                     filemode="w")
 # logging.basicConfig(level=logging.INFO)
 
-# the first one matches only phrases with only one word.
-# the second one matches the last two words in a phrase with two words
-ONE_WORD_PATTERN = re.compile(r'^(\w+)\.*$')
-TWO_WORD_PATTERN = re.compile(r'(.*\s+|^)(\S+\s+\w+)\.*$')
-THREE_WORD_PATTERN = re.compile(r'(.*\s+|^)(\S+\s+\S+\s+\w+)\.*$')
-PUNC_FILTER = re.compile(r'([.!?]\s*)')
-QUOTE_PATTERN = re.compile("\"")
+nlp = spacy.load('en')
+# tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+
+flawed_utf_patt = re.compile(r'\\x\.*')
+quote_patt = re.compile("\"")
+space_patt = re.compile(r'\s+')
+nt_patt = re.compile(r'\s+n\'t')
+s_patt = re.compile(r'\s+\'s')
+d_patt = re.compile(r'\s+\'d')
+ve_patt = re.compile(r'\s+\'ve')
+ll_patt = re.compile(r'\s+\'ll')
+newline_patt = re.compile(r'\s\\n\s+')
 
 ##################################################################
 ##################################################################
@@ -29,15 +35,103 @@ QUOTE_PATTERN = re.compile("\"")
 ##################################################################
 
 
-class POSifiedText(markovify.Text):
+class MarkovPT(markovify.Text):
     def word_split(self, sentence):
-        words = re.split(self.word_split_pattern, sentence)
-        words = ["::".join(tag) for tag in nltk.pos_tag(words)]
-        return words
+        return ["::".join((word.orth_, word.pos_)) for word in nlp(sentence)]
 
     def word_join(self, words):
         sentence = " ".join(word.split("::")[0] for word in words)
         return sentence
+
+    # here we need to get the two last words but forget
+    # the ellipsis "..."
+    def get_last_words(self, sentence):
+        split_sentence = self.word_split(sentence)
+        last_two = split_sentence[-3:-1]
+        last_two = self.word_join(last_two)
+        return last_two
+
+    def format_msg(self, msg):
+        # capitalize each phrase
+        for ponct in [". ", "! ", "? "]:
+            sentences = msg.split(ponct)
+            for index in range(1, len(sentences)):
+                sentences[index] = (sentences[index][0].upper()
+                                    + sentences[index][1:])
+            msg = ponct.join(sentences)
+
+        # now we remove the first two words
+        split_sentence = self.word_split(msg)
+        if "::PUNCT" not in split_sentence[2]:
+            msg = self.word_join(split_sentence[2:])
+        else:
+            msg = self.word_join(split_sentence[3:])
+
+        # then we format the text
+        msg = re.sub(space_patt, " ", msg)
+        msg = re.sub(flawed_utf_patt, "", msg)
+        msg = re.sub(quote_patt, "", msg)
+        msg = re.sub(nt_patt, "n't", msg)
+        msg = re.sub(s_patt, "'s", msg)
+        msg = re.sub(d_patt, "'d", msg)
+        msg = re.sub(ve_patt, "'ve", msg)
+        msg = re.sub(ll_patt, "'ll", msg)
+        msg = re.sub(newline_patt, " ", msg)
+        msg = re.sub(u'\\s([?\\.\'!,;"](?:\\s|$))', r'\1', msg)
+        msg = "..." + msg
+        return msg
+
+    def make_msg(self, model):
+        logging.info("Generating sentence")
+        min_size = 200
+        max_size = 240
+        entire_sentence = ""
+        while len(entire_sentence) < min_size:
+            if len(entire_sentence) != 0:
+                entire_sentence += " "
+            sentence = None
+            while sentence is None:
+                sentence = \
+                    model.make_short_sentence(max_size - len(entire_sentence))
+
+            if sentence[-1] == ",":
+                sentence = sentence[:-1] + "."
+            elif sentence[-1] not in ["?", "!", ".", "\""]:
+                sentence = sentence + "."
+            entire_sentence += sentence
+        # the machado model has some accented
+        # characters that for some reason don't
+        # get formated nicely. In this step
+        # we remove them and do some more formatting
+        entire_sentence = self.format_msg(entire_sentence)
+        return entire_sentence
+
+    def complete_sentence(self, sentence, max_tries=5):
+        last_words = self.get_last_words(sentence)
+        tries = 0
+        completion = None
+        while completion is None and tries < max_tries:
+            try:
+                completion = self.make_sentence_with_start(
+                    last_words
+                )
+                completion = self.format_msg(completion)
+            except Exception as e:
+                tries += 1
+                logging.info(e)
+        return completion
+
+    @classmethod
+    def get_crypto(cls):
+        return load_model_from_json("Crypto")
+
+    @classmethod
+    def get_sando(cls):
+        return load_model_from_json("Sando")
+
+    @classmethod
+    def get_asoiaf(cls):
+        return load_model_from_json("asoiaf")
 
 
 def save_model_as_json(text_model, file_name):
@@ -46,27 +140,18 @@ def save_model_as_json(text_model, file_name):
         json.dump(model_json, outfile)
 
 
-def load_model_from_json(file_name, pos=True):
-    logging.info("Lendo modelo {}".format(file_name))
-    with open(config.MODELS_FOLDER + file_name) as json_file:
-        if pos:
-            return POSifiedText.from_json(json.load(json_file))
-        return markovify.Text.from_json(json.load(json_file))
+def load_model_from_json(file_name):
+    logging.info("Opening model: {}".format(file_name))
+    with open('models\\' + file_name + '.json') as json_file:
+        return MarkovPT.from_json(json.load(json_file))
 
 
-def create_models_and_save(sample_file, output_name, pos=True):
-    def create_model_and_save(state_size):
-        with open(sample_file, 'r', encoding="utf-8") as file:
-            if pos:
-                model = POSifiedText(file, state_size)
-                model_type = "pos"
-            else:
-                model = markovify.Text(file, state_size)
-                model_type = "mark"
-            save_model_as_json(model, output_name + " "
-                               + str(state_size) + " " + model_type)
-    for i in range(1, 4):  # 1, 2, 3
-        create_model_and_save(i)
+def model_and_save(file_name, state_size=2):
+    # also returns the model
+    with open('samples\\' + file_name + '.txt', encoding="utf-8") as file:
+        model = MarkovPT(file.read(), state_size=state_size)
+    save_model_as_json(model, file_name)
+    return model
 
 ##################################################################
 ##################################################################
@@ -205,161 +290,6 @@ class Database:
         if matches > 0:
             return True
         return False
-
-##################################################################
-##################################################################
-##################################################################
-
-
-class Handler:
-    # return the last words and the ammount of words it could extract.
-    # tries to extract the most amount of words at the end.
-    def __init__(self, model_dict, pos=True):
-        self.models = \
-            {'model1': load_model_from_json(model_dict['model1'], pos),
-             'model2': load_model_from_json(model_dict['model2'], pos),
-             'model3': load_model_from_json(model_dict['model3'], pos)}
-
-    def get_last_words(self, sentence):
-        # logging.info("Extracting ending of sentence \"{}\"".format(sentence))
-        try:
-            words = re.findall(THREE_WORD_PATTERN, sentence)[0][1]
-            return words, 3
-        except IndexError:
-            logging.info("Could not return three words")
-            try:
-                words = re.findall(TWO_WORD_PATTERN, sentence)[0][1]
-                return words, 2
-            except IndexError:
-                logging.info("Could not return two words")
-                try:
-                    words = re.findall(ONE_WORD_PATTERN, sentence)[0]
-                    return words, 1
-                except IndexError:
-                    logging.info("Could not return one word")
-                    return None, 0
-
-    # formats the completion the way we want it
-    def remove_first_words(self, sentence, amount):
-        return ' '.join(sentence.split(' ')[amount:])
-
-    # capitalizes after ponctuation. Also adds a period if
-    # the sentence ends without ponctuation and
-    # removes bad ponctuations
-    def upper_after_ponc(self, sentence):
-        # print("Processing ponctuation of:\n{}".format(sentence))
-        split_with_punctuation = PUNC_FILTER.split(sentence)
-        cased = ''.join([i.capitalize() for i in split_with_punctuation])
-        if len(re.findall(QUOTE_PATTERN, cased)) % 2 == 1:
-            # print("Número par de aspas")
-            cased = re.sub(QUOTE_PATTERN, "", cased)
-        if cased[-1] == ",":
-            cased = cased[:-1] + "."
-        elif cased[-1] not in ["?", "!", "."]:
-            cased = cased + "."
-        # print("Ponctuated sentence is:\n{}".format(cased))
-        return cased
-
-    # limit_use exists so when we use the one word model (bad)
-    # we can limit how big its part is
-    def complete_with_model(self, ending, model, amount, limit_use=False):
-        completion = None
-        try:
-            tries = 0
-            while completion is None or (limit_use and len(completion) > 30):
-                if tries > 3:
-                    break
-                logging.info("We have this value for the ending:"
-                             " \"%s\", AMOUNT = %s" % (ending, amount))
-                completion = model.make_sentence_with_start(ending)
-                logging.info("We have obtained this completion "
-                             "inside complete_with_model:"
-                             " \"%s\". The condition for loop is %s" % (
-                                    completion, completion is None or
-                                    (limit_use and len(completion) > 30)))
-                tries += 1
-            # no use to continue if we didn't get a result
-            if completion is None:
-                return None
-            if len(completion) < config.MIN_LEN:
-                # the later part aways uses model3
-                addition = None
-                while addition is None:
-                    addition = self.models['model3'].make_sentence()
-                completion += " " + addition
-            logging.info("We obtained the completion \" % s\"" %
-                         completion)
-            cased = self.upper_after_ponc(completion)
-            return "..." + self.remove_first_words(cased, amount)
-        except KeyError:
-            return None
-
-    # This return a completion if one of the models
-    # can handle the sentence and None if not
-    def complete_sentence(self, sentence):
-        ending, amount = self.get_last_words(sentence)
-        logging.info("\nEnding:{}\nAmount:{}".format(ending, amount))
-
-        if amount == 3:
-            completion = self.complete_with_model(ending,
-                                                  self.models['model3'], 3)
-            if completion is not None:
-                return completion
-            amount = 2
-            ending = self.remove_first_words(ending, 1)
-        if amount == 2:
-            completion = self.complete_with_model(ending,
-                                                  self.models['model2'], 2)
-            logging.info("We achieved the following completion "
-                         "on 2 words:\n{}".format(completion))
-            if completion is not None:
-                return completion
-            if ending.split(" ")[-1] in ["and", "or", "is",
-                                         "was", "were", "for"]:
-                amount = 1
-                ending = self.remove_first_words(ending, 1)
-        if amount == 1:
-            completion = self.complete_with_model(
-                ending, self.models['model1'], 1, True)
-            logging.info("We achieved the following completion "
-                         "on 1 word:\n{}".format(completion))
-            if completion is not None:
-                return completion
-        return None
-
-    # factories for common handlers
-    @staticmethod
-    def get_star_wars_handler():
-        handler = \
-            Handler({'model1': 'starwars 1 pos.json',
-                     'model2': 'starwars 2 pos.json',
-                     'model3': 'starwars 3 pos.json'})
-        return handler
-
-    @staticmethod
-    def get_sando_handler():
-        handler = \
-            Handler({'model1': 'sando 1 pos.json',
-                     'model2': 'sando 2 pos.json',
-                     'model3': 'sando 3 pos.json'})
-        return handler
-
-    @staticmethod
-    def get_asoiaf_handler():
-        handler = \
-            Handler({'model1': 'asoiaf 1 pos.json',
-                     'model2': 'asoiaf 2 pos.json',
-                     'model3': 'asoiaf 3 pos.json'})
-        return handler
-
-    @staticmethod
-    def get_rosa():
-        handler = \
-            Handler({'model1': 'rosa 1 mark.json',
-                     'model2': 'rosa 2 mark.json',
-                     'model3': 'rosa 3 mark.json'}, pos=False)
-        return handler
-
 ##################################################################
 ##################################################################
 ##################################################################
@@ -409,7 +339,7 @@ def delete_bad_comments(reddit):
             comment.delete()
 
 
-def run(sub_name, handler):
+def run(sub_name, model):
     logging.info(datetime.datetime.now())
 
     replied_comments = []
@@ -452,7 +382,7 @@ def run(sub_name, handler):
                 logging.info("Found matching comment!")
                 logging.info(comment.body[-50:])
 
-                completion = handler.complete_sentence(comment.body)
+                completion = model.complete_sentence(comment.body)
                 logging.info('Completion: %s' % completion)
                 if completion is not None and "::" not in completion:
                     reply_completion(comment, completion)
@@ -482,9 +412,15 @@ def run(sub_name, handler):
     database.connection.close()
 
 
-def run_handler(handler, sub_name):
+def run_model(model, sub_name):
     try:
-        logging.info("Running handler on {}.".format(sub_name))
-        run(sub_name, handler)
+        logging.info("Running model on {}.".format(sub_name))
+        run(sub_name, model)
     except Exception as e:
         logging.critical(e, exc_info=True)
+
+
+if __name__ == "__main__":
+    m = MarkovPT.get_sando()
+    for i in range(10):
+        print(m.complete_sentence("sure he was..."))
