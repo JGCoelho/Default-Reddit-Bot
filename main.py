@@ -1,13 +1,11 @@
-from acb import MarkovPT, run_model, logging
-
+from src.bot import run_on_a_sub, logging, delete_bad_comments
+import config
 
 logging.basicConfig(level=logging.INFO)
 logging.basicConfig(filename="log.log", level=logging.INFO,
                     filemode="w")
-
-# model = MarkovPT.get_sando()
-# run_model(model, 'all')
-model = MarkovPT.get_sando()
-run_model(model, 'cremposting')
-model = MarkovPT.get_asoiaf()
-run_model(model, 'freefolk')
+print("OK")
+delete_bad_comments()
+subs = config.SUBNAMES
+for sub in subs():
+    run_on_a_sub(sub)

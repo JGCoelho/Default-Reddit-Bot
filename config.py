@@ -1,17 +1,16 @@
 # Data for reddit
-user = "sandocomplete"
-password = "SrK(K%qFx/`CG77G"
-client_id = "QOw2-f-Ic_oGug"  # "LJU-zUmur6WjLA"
-client_secret = "aFt9jyluQXWViXmXR9sJa-lGl8Q"  # "VsnVr8Sskq9FZRmlTjhjTSCTyZ4"
-database = "markov.db"
+user = "*****************"
+password = "*****************"
+client_id = "*****************"
+client_secret = "*****************"
+database = "*****************"
 
 
 # other bot data
-MODELS_FOLDER = 'models\\'
-SLEEP_TIME = 1000
+LINE = "--------------------------------------------------\n"
 NUM_OF_POSTS = 30
 SAFE_WORD = "!AVOID"
-MIN_LEN = 100
+SUBNAMES = ['test']
 BAN_MSGS = ["The bot commits seppuku",
             "The bot shoots himself in the back three times",
             "The bot feels oddly relieved",

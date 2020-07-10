@@ -1,0 +1,180 @@
+INFO:root:Opening model: Sando
+INFO:root:Running model on cremposting.
+INFO:root:2020-05-19 21:25:51.248348
+INFO:root:Logging in...
+INFO:root:Logged!
+INFO:root:Checking inbox...
+INFO:root:Deleting bad replies...
+INFO:root:Opening sub...
+INFO:root:Sub opened!
+INFO:root:Getting posts...
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/cremposting/comments/b18ct5/announcing_the_monthly_mods_choice_awards/
+INFO:root:Post was archived or locked.
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/cremposting/comments/fr8m7l/best_of_2019_awards_and_25k_subs/
+INFO:root:-------------------------------------------------------
+https://i.redd.it/amuqytopkpz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/8gbqrvedrsz41.jpg
+INFO:root:-------------------------------------------------------
+https://imgur.com/3g3rpoN
+INFO:root:-------------------------------------------------------
+https://i.redd.it/4f9t42f4gnz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/ilv7k3r4jsz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/bh9qs33norz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/j0h6krwb2qz41.png
+INFO:root:-------------------------------------------------------
+https://i.redd.it/bpla3q74mrz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/4pndm3kznqz41.png
+INFO:root:-------------------------------------------------------
+https://i.redd.it/d4kkafwrpsz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/pdp9knwtumz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/chnugc8x8sz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/v3q9uveamqz41.png
+INFO:root:-------------------------------------------------------
+https://i.redd.it/tiha009i3qz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.imgur.com/IYxZaQ4.jpg
+INFO:root:Found matching comment!
+INFO:root:That does not rhyme with rock...
+INFO:root:('with::ADP', 'rock::NOUN')
+INFO:root:('with::ADP', 'rock::NOUN')
+INFO:root:('with::ADP', 'rock::NOUN')
+INFO:root:('with::ADP', 'rock::NOUN')
+INFO:root:('with::ADP', 'rock::NOUN')
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://i.redd.it/hig73hgg1tz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/papcpqdw6sz41.png
+INFO:root:-------------------------------------------------------
+https://i.redd.it/x24obo9q5tz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.imgur.com/kt9yPxu.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/z4dpczez2tz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/n36de49ccqz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/rnnc3df7rrz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/ao4vt2gw8tz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/mk5e4t1bksz41.jpg
+INFO:root:-------------------------------------------------------
+https://v.redd.it/r6iqfm3u3tz41
+INFO:root:-------------------------------------------------------
+https://i.redd.it/jtdi12piciz41.jpg
+INFO:root:-------------------------------------------------------
+https://i.imgur.com/0C8vCRO.jpg
+INFO:root:-------------------------------------------------------
+https://i.redd.it/0li6evg1nmz41.jpg
+INFO:root:-------------------------------------------------------
+The replies in this run:
+INFO:root:-------------------------------------------------------
+In this run we added 0 comments to the database.
+The database has a total of 391 comments.
+INFO:root:Opening model: asoiaf
+INFO:root:Running model on freefolk.
+INFO:root:2020-05-19 21:28:26.877832
+INFO:root:Logging in...
+INFO:root:Logged!
+INFO:root:Checking inbox...
+INFO:root:Deleting bad replies...
+INFO:root:Opening sub...
+INFO:root:Sub opened!
+INFO:root:Getting posts...
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/freefolk/comments/giv94a/throw_down_your_vote_and_add_it_to_the_others/
+INFO:root:Couldn't find author.
+INFO:root:Found matching comment!
+INFO:root:we should probably try a little harder to shred...
+INFO:root:('to::ADP', 'shred::VERB')
+INFO:root:('to::ADP', 'shred::VERB')
+INFO:root:('to::ADP', 'shred::VERB')
+INFO:root:('to::ADP', 'shred::VERB')
+INFO:root:('to::ADP', 'shred::VERB')
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://www.reddit.com/r/freefolk/comments/gmkcjm/daily_rfreefolk_free_talk_thread_may_19_2020/
+INFO:root:Found matching comment!
+INFO:root:out modern day slavery D&D wanted to make? Yeah...
+INFO:root:('?::PUNCT', 'Yeah::INTJ')
+INFO:root:('?::PUNCT', 'Yeah::INTJ')
+INFO:root:('?::PUNCT', 'Yeah::INTJ')
+INFO:root:('?::PUNCT', 'Yeah::INTJ')
+INFO:root:('?::PUNCT', 'Yeah::INTJ')
+INFO:root:Completion: None
+INFO:root:Couldn't find author.
+INFO:root:-------------------------------------------------------
+https://i.redd.it/yqtnjrox1qz41.jpg
+INFO:root:Found matching comment!
+INFO:root:on this sub years, and haven't seen it either.....
+INFO:root:('it::PRON', 'either::DET')
+INFO:root:('it::PRON', 'either::DET')
+INFO:root:('it::PRON', 'either::DET')
+INFO:root:('it::PRON', 'either::DET')
+INFO:root:('it::PRON', 'either::DET')
+INFO:root:Completion: None
+INFO:root:Found matching comment!
+INFO:root:You missed a 9 under the nipple...
+INFO:root:('the::DET', 'nipple::NOUN')
+INFO:root:('the::DET', 'nipple::NOUN')
+INFO:root:('the::DET', 'nipple::NOUN')
+INFO:root:('the::DET', 'nipple::NOUN')
+INFO:root:('the::DET', 'nipple::NOUN')
+INFO:root:Completion: None
+INFO:root:-------------------------------------------------------
+https://i.redd.it/o2u01obdxpz41.jpg
+INFO:root:Found matching comment!
+INFO:root:blings,Jon's best friend, Jon's trusted advisor...
+INFO:root:('trusted::VERB', 'advisor::PROPN')
+INFO:root:('trusted::VERB', 'advisor::PROPN')
+INFO:root:('trusted::VERB', 'advisor::PROPN')
+INFO:root:('trusted::VERB', 'advisor::PROPN')
+INFO:root:('trusted::VERB', 'advisor::PROPN')
+INFO:root:Completion: None
+INFO:root:Adding comment to failures...
+INFO:root:Comment added to failures.
+INFO:root:-------------------------------------------------------
+https://i.redd.it/2tdaj7gymmz41.jpg
+INFO:root:Found matching comment!
+INFO:root: he went looking for justice in the wrong place...
+INFO:root:'NoneType' object has no attribute 'split'
+INFO:root:'NoneType' object has no attribute 'split'
+INFO:root:'NoneType' object has no attribute 'split'
+INFO:root:'NoneType' object has no attribute 'split'
+INFO:root:'NoneType' object has no attribute 'split'
+INFO:root:Completion: None
+INFO:root:Found matching comment!
+INFO:root: on itself, he escaped. The others, not so much...
+INFO:root:Completion: ...else, broken in body and mind, hardly slowing, until he remembered it.
+CRITICAL:root:received 403 HTTP response
+Traceback (most recent call last):
+  File "C:\Users\JGC\Desktop\Trabalhos\Python\autocompletebot\acb.py", line 419, in run_model
+    run(sub_name, model)
+  File "C:\Users\JGC\Desktop\Trabalhos\Python\autocompletebot\acb.py", line 389, in run
+    reply_completion(comment, completion)
+  File "C:\Users\JGC\Desktop\Trabalhos\Python\autocompletebot\acb.py", line 331, in reply_completion
+    comment.reply(message)
+  File "C:\Users\JGC\anaconda3\lib\site-packages\praw\models\reddit\mixins\replyable.py", line 37, in reply
+    comments = self._reddit.post(API_PATH["comment"], data=data)
+  File "C:\Users\JGC\anaconda3\lib\site-packages\praw\reddit.py", line 637, in post
+    path=path,
+  File "C:\Users\JGC\anaconda3\lib\site-packages\praw\reddit.py", line 574, in _objectify_request
+    data=data, files=files, method=method, params=params, path=path
+  File "C:\Users\JGC\anaconda3\lib\site-packages\praw\reddit.py", line 732, in request
+    timeout=self.config.timeout,
+  File "C:\Users\JGC\anaconda3\lib\site-packages\prawcore\sessions.py", line 336, in request
+    url=url,
+  File "C:\Users\JGC\anaconda3\lib\site-packages\prawcore\sessions.py", line 265, in _request_with_retries
+    raise self.STATUS_EXCEPTIONS[response.status_code](response)
+prawcore.exceptions.Forbidden: received 403 HTTP response

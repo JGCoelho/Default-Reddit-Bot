@@ -1,12 +1,5 @@
 .vscode/
 reddit_config.py
-samples/
-markov.db
 .vscode/
 __pycache__/
-config_reddit.py
-failures.txt
-models/
-.pytest_cache/
-noarch/
 *.log
